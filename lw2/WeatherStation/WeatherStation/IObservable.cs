@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WeatherStation
+﻿namespace WeatherStation
 {
     public interface IObservable<out T>
     {
