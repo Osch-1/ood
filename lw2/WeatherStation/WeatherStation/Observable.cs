@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WeatherStation
 {
@@ -20,10 +21,8 @@ namespace WeatherStation
 
         public void Notify()
         {
-            for ( int i = _observers.Count - 1; i >= 0; i-- )
-            {
-                _observers[ i ].Update( GetModifiedData() );
-            }
+            var observers = _observers.ToList();
+            observers.ForEach( obs => obs.Update( GetModifiedData() ) );
         }
 
         public void Unsubscribe( IObserver<T> observer )
