@@ -8,6 +8,10 @@
 
         public double Pressure { get; set; }
 
+        public double WindSpeed { get; set; }
+
+        public double WindDirection { get; set; }
+
         public string Source { get; set; }
     }
 }

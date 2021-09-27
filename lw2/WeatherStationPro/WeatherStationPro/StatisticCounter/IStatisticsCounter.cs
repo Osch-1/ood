@@ -1,8 +1,8 @@
 ﻿namespace WeatherStationPro
 {
-    public interface IStatisticsCounter
+    public interface IStatisticsCounter<TValue>
     {
-        public void OnNewValue( double value );
+        public void OnNewValue( TValue value );
 
         public void Display();
     }

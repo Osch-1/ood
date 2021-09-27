@@ -22,8 +22,8 @@ namespace WeatherStationProTests
             wt2.Subscribe( sub1 );
 
             //Act
-            wt1.SetMeasurments( 1, 2, 3 );
-            wt2.SetMeasurments( 1, 2, 3 );
+            wt1.SetMeasurments( 1, 2, 3, 4, 5 );
+            wt2.SetMeasurments( 1, 2, 3, 4, 5 );
 
             //Assert
             Assert.That( sub1.UpdatedBy[ 0 ], Is.EqualTo( inStationName ) );

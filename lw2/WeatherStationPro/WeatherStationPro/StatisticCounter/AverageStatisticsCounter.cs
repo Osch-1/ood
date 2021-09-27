@@ -1,23 +1,18 @@
-﻿using System;
+﻿using WeatherStationPro.StatisticCounter.StatisticsDisplayStrategy;
 
 namespace WeatherStationPro
 {
-    public class AverageStatisticsCounter : IStatisticsCounter
+    public class AverageStatisticsCounter : IStatisticsCounter<double>
     {
-        private string _name;
+        private readonly IAverageStatisticsDisplayStrategy _statisticsDisplayStrategy;
         private double _minimal;
         private double _maximal;
         private double _total;
         private int _accCount;
 
-        public AverageStatisticsCounter( string name )
+        public AverageStatisticsCounter( IAverageStatisticsDisplayStrategy statisticsDisplayStrategy )
         {
-            _name = name;
-        }
-
-        private double GetAvarage()
-        {
-            return _accCount == 0 ? 0 : _total / _accCount;
+            _statisticsDisplayStrategy = statisticsDisplayStrategy;
         }
 
         public void OnNewValue( double value )
@@ -33,9 +28,12 @@ namespace WeatherStationPro
 
         public void Display()
         {
-            Console.WriteLine( $"Maximal {_name}: {_maximal:0.##}" );
-            Console.WriteLine( $"Minimal {_name}: {_minimal:0.##}" );
-            Console.WriteLine( $"Avarage {_name}: {GetAvarage():0.##}" );
+            _statisticsDisplayStrategy.Display( _minimal, _maximal, GetAvarage() );
+        }
+
+        private double GetAvarage()
+        {
+            return _accCount == 0 ? 0 : _total / _accCount;
         }
     }
 }
