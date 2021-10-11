@@ -8,6 +8,9 @@ namespace TextEditor.DocumentItems.Paragraph
 
         public Paragraph( string text )
         {
+            if ( text is null )
+                throw new ArgumentNullException();
+
             _text = text;
         }
 
@@ -17,11 +20,15 @@ namespace TextEditor.DocumentItems.Paragraph
             set
             {
                 if ( value is null )
-                    throw new ArgumentNullException();
+                    throw new ArgumentNullException( "Text can't be null", nameof( value ) );
 
                 _text = value;
             }
+        }
 
+        public override string ToString()
+        {
+            return _text;
         }
     }
 }

@@ -18,8 +18,8 @@ namespace TextEditor.DocumentItems
             _paragraph = paragraph;
         }
 
-        public IImage Image => _image ??= _image = null;
+        public IImage Image => _image;
 
-        public IParagraph Paragraph => _paragraph ??= _paragraph = null;
+        public IParagraph Paragraph => _paragraph;
     }
 }

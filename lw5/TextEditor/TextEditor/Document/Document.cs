@@ -1,32 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using TextEditor.Commands;
 using TextEditor.DocumentItems;
+using TextEditor.DocumentItems.Image;
+using TextEditor.DocumentItems.Paragraph;
+using TextEditor.History;
 
 namespace TextEditor.Document
 {
     public class Document : IDocument
     {
         private List<IDocumentItem> _documentItems = new();
-        private int _currentCommandIndex;
-
         private string _title = "Document";
+        private DocumentHistory _history = new();
 
         public int ItemsCount => _documentItems.Count;
 
         public string Title
         {
             get => _title;
-            set => _title = value is null ? "" : value;
+            set => _history.AddAndExecuteCommand( new ChangeFileNameCommand( this, value ) );
         }
 
-        //и чо это значит?____))))))))))))))))))))))))))0
-        public bool CanUndo => _documentItems.Any();
+        public bool CanUndo => _history.CanUndo;
 
-        //и чо это значит?____))))))))))))))))))))))))))0
-        public bool CanRedo => throw new NotImplementedException();
+        public bool CanRedo => _history.CanRedo;
+
+        public Document()
+        {
+
+        }
+
+        public Document( DocumentHistory history )
+        {
+            _history = history;
+        }
 
         public void DeleteItem( int index )
         {
@@ -47,7 +56,7 @@ namespace TextEditor.Document
         public void InsertImage( int width, int height, string srcPath, int position )
         {
             if ( srcPath is null )
-                throw new ArgumentNullException( nameof( srcPath ), "Path can't be empty" );
+                throw new ArgumentNullException( nameof( srcPath ), "Path can't be null" );
 
             if ( !srcPath.Any() )
                 throw new ArgumentException( "Path can't be empty", nameof( srcPath ) );
@@ -61,22 +70,37 @@ namespace TextEditor.Document
             if ( position < 0 || position > _documentItems.Count - 1 )
                 throw new ArgumentOutOfRangeException( nameof( position ) );
 
-            _documentItems.Add()
+            _documentItems.Insert( position, new DocumentItem( new Image( width, height, srcPath ) ) );
         }
 
         public void InsertImage( int width, int height, string srcPath )
         {
-            throw new NotImplementedException();
+            InsertImage( width, height, srcPath, _documentItems.Count - 1 );
         }
 
         public void InsertParagraph( string text, int position )
         {
-            throw new NotImplementedException();
+            if ( text is null )
+                throw new ArgumentNullException( nameof( text ), "Paragraph text can't be null" );
+
+            if ( position > _documentItems.Count - 1 )
+                throw new ArgumentException();
+
+            _documentItems.Insert( position, new DocumentItem( new Paragraph( text ) ) );
+        }
+
+        public void InsertParagraph( string text )
+        {
+            if ( text is null )
+                throw new ArgumentNullException( nameof( text ), "Paragraph text can't be null" );
+
+            InsertParagraph( text, _documentItems.Count - 1 );
         }
 
         public void Redo()
         {
-            throw new NotImplementedException();
+            if ( CanRedo )
+                _history.Redo();
         }
 
         public void Save( string path )
@@ -86,7 +110,8 @@ namespace TextEditor.Document
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            if ( CanUndo )
+                _history.Undo();
         }
     }
 }

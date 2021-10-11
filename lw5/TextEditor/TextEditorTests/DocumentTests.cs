@@ -1,8 +1,8 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace TextEditorTests
 {
-    public class Tests
+    public class DocumentTests
     {
         [SetUp]
         public void Setup()
