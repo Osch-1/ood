@@ -12,7 +12,7 @@ namespace TextEditorTests
         {
             //Arramge
             DocumentHistory history = new();
-            Document document = new();
+            Document document = new( history );
             document.InsertParagraph( "some text" );
             var item = document.GetItem( 0 );
 
