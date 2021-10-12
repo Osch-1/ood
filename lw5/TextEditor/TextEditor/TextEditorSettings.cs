@@ -7,8 +7,9 @@ namespace TextEditor
         public static string TempDirectory => $"{Path.GetTempPath()}TextEditor/";
         public static string ImagesDirectory => $"{TempDirectory}Images/";
 
-        static TextEditorSettings()
+        public static void InitializeDirectories()
         {
+            Directory.CreateDirectory( TempDirectory );
             Directory.CreateDirectory( ImagesDirectory );
         }
     }

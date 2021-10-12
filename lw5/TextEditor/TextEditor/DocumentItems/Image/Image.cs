@@ -104,7 +104,6 @@ namespace TextEditor.DocumentItems.Image
 
         private static string GeneratePath( string fileName ) => $"{TextEditorSettings.ImagesDirectory}{fileName}";
 
-
         // just use existing things ̿ ̿ ̿'̿'\̵͇̿̿\з=(•_•)=ε/̵͇̿̿/'̿'̿ ̿
         // actually it can be simplified to stream bypassing, but without quality saving and other things
         private Bitmap ResizeImage( System.Drawing.Image image, int width, int height )
