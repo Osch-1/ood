@@ -5,8 +5,8 @@ namespace CoffeeHouse.Decorators
 {
     public class LemonBeverageDecorator : AbstractBeverageDecorator
     {
-        private readonly int _count;
         private const int _costPerUnit = 10;
+        private readonly int _count;
 
         public LemonBeverageDecorator( IBeverage beverage, int count )
             : base( beverage )

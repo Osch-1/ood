@@ -1,6 +1,6 @@
-﻿namespace WeatherStationPro.Dto
+﻿namespace WeatherStationPro.Entities
 {
-    public class WeatherInfo
+    public class OutsideWeatherInfo
     {
         public double Temperature { get; set; }
 
@@ -11,7 +11,5 @@
         public double WindSpeed { get; set; }
 
         public double WindDirection { get; set; }
-
-        public string Source { get; set; }
     }
 }

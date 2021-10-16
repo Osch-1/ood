@@ -22,8 +22,6 @@ namespace WeatherStationPro.StatisticCounter.StatisticsDisplayStrategy
 
         public void Display( double min, double max, double average )
         {
-            Console.WriteLine( $"Minimal {_name}: {GetCardinalPointName( min )}" );
-            Console.WriteLine( $"Maximal {_name}: {GetCardinalPointName( max )}" );
             Console.WriteLine( $"Average {_name}: {GetCardinalPointName( average )}" );
         }
 

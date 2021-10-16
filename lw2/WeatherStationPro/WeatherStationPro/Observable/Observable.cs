@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WeatherStationPro.Entities;
 
 namespace WeatherStationPro.Observable
 {
-    public class Observable<T> : IObservable<T>
+    public class Observable<TValType, TEvent> : IObservable<TValType, TEvent>
+        where TEvent : Enum
     {
-        private const int _leastPriority = 0;
+        private readonly TEvent _leastPriority = default;
 
-        private readonly SortedDictionary<int, HashSet<IObserver<T>>> _observers = new( new DescendingComparer<int>() );
+        private readonly IComparer<int> _comparer = new DescendingComparer<int>();
+        private readonly Dictionary<TEvent, SortedDictionary<int, HashSet<IObserver<TValType>>>> _observers = new();
+        private readonly string _name;
 
-        public void Subscribe( IObserver<T> observer )
+        public string Name
         {
-            if ( observer is null )
-                throw new ArgumentNullException( nameof( observer ) );
-
-            SubscribeByPriority( observer, _leastPriority );
+            get
+            {
+                return _name;
+            }
         }
 
-        public void Subscribe( IObserver<T> observer, int priority )
+        public Observable( string name )
         {
-            if ( priority < 0 )
-                throw new ArgumentException( "Parameter can't be negative.", nameof( priority ) );
+            _name = name;
+        }
 
+        public void Subscribe( IObserver<TValType> observer, TEvent priority )
+        {
             if ( observer is null )
                 throw new ArgumentNullException( nameof( observer ) );
 
@@ -36,25 +42,25 @@ namespace WeatherStationPro.Observable
             var observers = _observers.ToList();
             observers.ForEach( obs =>
                 obs.Value.ToList().ForEach( o =>
-                    o.Update( modifiedData ) ) );
+                    o.Update( Name, modifiedData ) ) );
         }
 
-        public void Unsubscribe( IObserver<T> observer )
+        public void Unsubscribe( IObserver<TValType> observer )
         {
             var setToRemoveFrom = _observers.FirstOrDefault( obs => obs.Value.Contains( observer ) ).Value;
             setToRemoveFrom?.Remove( observer );
         }
 
-        protected virtual T GetModifiedData()
+        protected virtual TValType GetModifiedData()
         {
             return default;
         }
 
-        private void SubscribeByPriority( IObserver<T> observer, int priority )
+        private void SubscribeByPriority( IObserver<TValType> observer, TEvent priority )
         {
             if ( !_observers.ContainsKey( priority ) )
             {
-                _observers.Add( priority, new HashSet<IObserver<T>>() );
+                _observers.Add( priority, new HashSet<IObserver<TValType>>() );
             }
 
             _observers[ priority ].Add( observer );

@@ -28,10 +28,10 @@ namespace WeatherStationPro
 
         public void Display()
         {
-            _statisticsDisplayStrategy.Display( _minimal, _maximal, GetAvarage() );
+            _statisticsDisplayStrategy.Display( _minimal, _maximal, GetAverage() );
         }
 
-        private double GetAvarage()
+        private double GetAverage()
         {
             return _accCount == 0 ? 0 : _total / _accCount;
         }

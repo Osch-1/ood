@@ -1,29 +1,19 @@
-﻿using WeatherStationPro.Dto;
+﻿using WeatherStationPro.Entities;
 using WeatherStationPro.Observable;
 
-namespace WeatherStationPro
+namespace WeatherStationPro.WeatherStations
 {
-    public class WeatherStation : Observable<WeatherInfo>
+    public class InsideWeatherStation : Observable<WeatherInfo>
     {
-        private readonly string _name;
-
         private double _temperature = 0;
         private double _humidity = 0;
         private double _pressure = 0;
         private double _windSpeed = 0;
         private double _windDirection = 0;
 
-        public string Name
+        public InsideWeatherStation()
+            : base( "Inside weather station" )
         {
-            get
-            {
-                return _name;
-            }
-        }
-
-        public WeatherStation( string name )
-        {
-            _name = name;
         }
 
         public void SetMeasurments( double temperature, double humidity, double pressure, double windSpeed, double windDirection )
@@ -45,8 +35,7 @@ namespace WeatherStationPro
                 Humidity = _humidity,
                 Pressure = _pressure,
                 WindSpeed = _windSpeed,
-                WindDirection = _windDirection,
-                Source = Name
+                WindDirection = _windDirection
             };
         }
     }

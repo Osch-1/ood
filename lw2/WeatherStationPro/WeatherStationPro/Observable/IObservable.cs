@@ -1,12 +1,13 @@
-﻿namespace WeatherStationPro
+﻿using System;
+
+namespace WeatherStationPro
 {
-    public interface IObservable<out T>
+    public interface IObservable<out T, TEvent>
+        where TEvent : Enum
     {
-        public void Subscribe( IObserver<T> observer );
+        public void Subscribe( IObserver<T, TEvent> observer, TEvent priority );
 
-        public void Subscribe( IObserver<T> observer, int priority );
-
-        public void Unsubscribe( IObserver<T> observer );
+        public void Unsubscribe( IObserver<T, TEvent> observer );
 
         public void Notify();
     }

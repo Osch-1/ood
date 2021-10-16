@@ -17,7 +17,7 @@ namespace WeatherStationTests
         public void Observable_Notify_WithSubscruberWhichUnsubsrcibesInUpdateMethod_DoesntThrowException()
         {
             //Arrange
-            Observable<int> observable = new();
+            Observable<int> observable = new( "some name" );
             OnUpdateUnsubscriber sub1 = new( observable );
             CommonSubscriber sub2 = new();
             CommonSubscriber sub3 = new();
@@ -39,7 +39,7 @@ namespace WeatherStationTests
         public void Observable_Notify_SubscribersWithPriority_CallsUpdateInPriorityOrder()
         {
             //Arrange
-            Observable<int> observable = new();
+            Observable<int> observable = new( "some name" );
             PrioritizedSubscriber sub1 = new( "Sub to be called sixth" );
             PrioritizedSubscriber sub2 = new( "Sub to be called fifth" );
             PrioritizedSubscriber sub3 = new( "Sub to be called fourth" );

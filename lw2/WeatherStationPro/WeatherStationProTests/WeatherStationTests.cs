@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using WeatherStationPro;
+using WeatherStationPro.WeatherStations;
 using WeatherStationProTests.SubscriberStubs;
 
 namespace WeatherStationProTests
@@ -10,10 +10,10 @@ namespace WeatherStationProTests
         public void WeatherStation_Notify_SubscriberWithSourceTracker_ObserverCorrectlySendsItsName()
         {
             //Arrange
-            string inStationName = "Inside staion";
-            string outStationName = "Outside staion";
-            WeatherStation wt1 = new( inStationName );
-            WeatherStation wt2 = new( outStationName );
+            string inStationName = "Inside weather station";
+            string outStationName = "Outside weather station";
+            InsideWeatherStation wt1 = new();
+            OutsideWeatherStation wt2 = new();
             SourceTrackingSubscriber sub1 = new();
             SourceTrackingSubscriber sub2 = new();
 
@@ -23,7 +23,7 @@ namespace WeatherStationProTests
 
             //Act
             wt1.SetMeasurments( 1, 2, 3, 4, 5 );
-            wt2.SetMeasurments( 1, 2, 3, 4, 5 );
+            wt2.SetMeasurments( 1, 2, 3 );
 
             //Assert
             Assert.That( sub1.UpdatedBy[ 0 ], Is.EqualTo( inStationName ) );

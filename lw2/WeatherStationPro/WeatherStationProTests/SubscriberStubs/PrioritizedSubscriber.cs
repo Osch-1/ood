@@ -14,7 +14,7 @@ namespace WeatherStationProTests.SubscriberStubs
             Name = name;
         }
 
-        public void Update( int data )
+        public void Update( string source, int data )
         {
             UpdateMethodInvokationLog.Add( Name );
         }

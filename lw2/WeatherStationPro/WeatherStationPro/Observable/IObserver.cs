@@ -2,6 +2,6 @@
 {
     public interface IObserver<in T>
     {
-        public void Update( T data );
+        public void Update( string source, T data );
     }
 }

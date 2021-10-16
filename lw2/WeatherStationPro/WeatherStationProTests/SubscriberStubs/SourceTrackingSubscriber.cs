@@ -1,16 +1,21 @@
 ﻿using WeatherStationPro;
 using System.Collections.Generic;
-using WeatherStationPro.Dto;
+using WeatherStationPro.Entities;
 
 namespace WeatherStationProTests.SubscriberStubs
 {
-    public class SourceTrackingSubscriber : IObserver<WeatherInfo>
+    public class SourceTrackingSubscriber : IObserver<WeatherInfo>, IObserver<OutsideWeatherInfo>
     {
         public List<string> UpdatedBy { get; set; } = new();
 
-        public void Update( WeatherInfo data )
+        public void Update( string source, WeatherInfo data )
         {
-            UpdatedBy.Add( data.Source );
+            UpdatedBy.Add( source );
+        }
+
+        public void Update( string source, OutsideWeatherInfo data )
+        {
+            UpdatedBy.Add( source );
         }
     }
 }

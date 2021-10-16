@@ -10,7 +10,7 @@ namespace WeatherStationProTests.SubscriberStubs
             set;
         }
 
-        public void Update( int data )
+        public void Update( string source, int data )
         {
             UpdateCalledCount++;
         }

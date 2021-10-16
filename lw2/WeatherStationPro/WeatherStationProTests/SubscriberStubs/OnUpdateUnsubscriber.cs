@@ -16,7 +16,7 @@ namespace WeatherStationProTests.SubscriberStubs
             _subject = subject;
         }
 
-        public void Update( int data )
+        public void Update( string source, int data )
         {
             UpdateCalledCount++;
             _subject.Unsubscribe( this );

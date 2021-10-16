@@ -1,5 +1,5 @@
 ﻿using System;
-using WeatherStationPro.Dto;
+using WeatherStationPro.Entities;
 using WeatherStationPro.StatisticCounter.StatisticsDisplayStrategy;
 
 namespace WeatherStationPro
@@ -21,7 +21,7 @@ namespace WeatherStationPro
             _windDirectionStatisticsCounter = new AverageStatisticsCounter( new CardinalPointStatisticsDisplayStrategy( "wind direction" ) );
         }
 
-        public void Update( WeatherInfo data )
+        public void Update( string source, WeatherInfo data )
         {
             _temperatureStatisticsCounter.OnNewValue( data.Temperature );
             _humidityStatisticsCounter.OnNewValue( data.Humidity );
@@ -29,7 +29,7 @@ namespace WeatherStationPro
             _windSpeedStatisticsCounter.OnNewValue( data.WindSpeed );
             _windDirectionStatisticsCounter.OnNewValue( data.WindDirection );
 
-            Console.WriteLine( $"Data came from: {data.Source}" );
+            Console.WriteLine( $"Data came from: {source}" );
             _temperatureStatisticsCounter.Display();
             _humidityStatisticsCounter.Display();
             _pressureStatisticsCounter.Display();
