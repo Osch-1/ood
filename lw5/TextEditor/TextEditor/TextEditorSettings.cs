@@ -1,15 +1,25 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace TextEditor
 {
     public static class TextEditorSettings
     {
-        public static string TempDirectory => $"{Path.GetTempPath()}TextEditor/";
-        public static string ImagesDirectory => $"{TempDirectory}Images/";
+        public static string IndexTemplateName => "index.html";
+        public static string StyleTemplateName => "style.css";
 
-        public static void InitializeDirectories()
+        public static string ResultIndexName => "index.html";
+        public static string ResultStyleName => "style.css";
+
+        public static string RootDirectory => $"{Path.GetTempPath()}TextEditor/";
+        public static string ImagesSubDirectory => "images/";
+        public static string ImagesDirectory => $"{RootDirectory}{ImagesSubDirectory}";
+        public static string IndexTemplatePath => $"{Directory.GetCurrentDirectory()}/Templates/{IndexTemplateName}";
+        public static string StyleTemplatePath => $"{Directory.GetCurrentDirectory()}/Templates/{StyleTemplateName}";
+
+        public static void InitializeWorkingDirectories()
         {
-            Directory.CreateDirectory( TempDirectory );
+            Directory.CreateDirectory( RootDirectory );
             Directory.CreateDirectory( ImagesDirectory );
         }
     }

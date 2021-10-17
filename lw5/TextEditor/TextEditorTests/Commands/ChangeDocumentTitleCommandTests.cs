@@ -1,9 +1,10 @@
 ﻿using NUnit.Framework;
 using TextEditor.Commands;
+using TextEditorTests.Mocks;
 
-namespace TextEditorTests
+namespace TextEditorTests.Commands
 {
-    public class ChangeStringCommandTests
+    public class ChangeDocumentTitleCommandTests
     {
         [Test]
         public void ChangeFileNameCommand_CorrectBehaviour()
@@ -11,7 +12,7 @@ namespace TextEditorTests
             //Arrange            
             string b = "b string";
             TestDocument document = new();
-            ChangeFileNameCommand command = new( document, b );            
+            ChangeDocumentTitleCommand command = new( document, b );
 
             //Act
             command.Invoke();

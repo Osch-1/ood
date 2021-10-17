@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TextEditor.Commands;
 using TextEditor.Extensions;
 
@@ -7,7 +8,6 @@ namespace TextEditor.History
     public class DocumentHistory : IHistory
     {
         private List<ICommand> _commands = new();
-
         private int _nextCommandIndex = 0;
 
         public bool CanUndo
@@ -20,7 +20,7 @@ namespace TextEditor.History
 
         public bool CanRedo
         {
-            get
+            get 
             {
                 return _nextCommandIndex < _commands.Count;
             }
@@ -28,6 +28,9 @@ namespace TextEditor.History
 
         public void AddAndExecuteCommand( ICommand command )
         {
+            if ( _commands.Count == 10 )
+                _commands = _commands.Skip( 1 ).ToList();
+
             _commands.Add( null );
 
             if ( _commands.Count > _nextCommandIndex )

@@ -3,7 +3,7 @@ using TextEditor.Document;
 using TextEditor.DocumentItems.Paragraph;
 using TextEditor.History;
 
-namespace TextEditorTests
+namespace TextEditorTests.Commands
 {
     public class ReplaceTextCommandTests
     {

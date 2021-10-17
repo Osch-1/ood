@@ -1,7 +1,7 @@
 ﻿using TextEditor;
 using TextEditor.DocumentItems;
 
-namespace TextEditorTests
+namespace TextEditorTests.Mocks
 {
     public class TestDocument : IDocument
     {
@@ -29,17 +29,17 @@ namespace TextEditorTests
             throw new System.NotImplementedException();
         }
 
-        public void InsertImage( int width, int height, string srcPath, int position )
+        public void InsertImage( int width, int height, string srcPath, int? position = null)
         {
             throw new System.NotImplementedException();
         }
 
-        public void InsertImage( int width, int height, string srcPath )
+        public void InsertParagraph( string text, int? position = null )
         {
             throw new System.NotImplementedException();
         }
 
-        public void InsertParagraph( string text, int position )
+        public void List()
         {
             throw new System.NotImplementedException();
         }

@@ -2,12 +2,13 @@
 
 namespace TextEditor.Commands
 {
-    public class ChangeFileNameCommand : AbstractCommand
-    {        
-        private IDocument _document;
+    public class ChangeDocumentTitleCommand : AbstractCommand
+    {
+        private readonly IDocument _document;
         private string _swapped;
 
-        public ChangeFileNameCommand( IDocument document, string newValue )
+        public ChangeDocumentTitleCommand( IDocument document, string newValue )
+            : base()
         {
             _document = document;
             _swapped = newValue;

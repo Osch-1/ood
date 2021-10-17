@@ -1,15 +1,17 @@
 using System;
 using System.IO;
 using NUnit.Framework;
+using TextEditor;
 using TextEditor.DocumentItems.Image;
 
-namespace TextEditorTests
+namespace TextEditorTests.DocumentItems
 {
     public class ImageTests
     {
         [SetUp]
         public void Setup()
         {
+            TextEditorSettings.InitializeWorkingDirectories();
         }
 
         [Test]

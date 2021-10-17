@@ -28,7 +28,7 @@ namespace TextEditor.DocumentItems.Paragraph
 
         public override string ToString()
         {
-            return _text;
+            return $"Paragraph: {_text}";
         }
     }
 }

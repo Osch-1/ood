@@ -4,10 +4,11 @@ namespace TextEditor.Commands
 {
     public class ReplaceTextCommand : AbstractCommand
     {
-        private Paragraph _target;
+        private readonly IParagraph _target;
         private string _textTemp;
 
-        public ReplaceTextCommand( Paragraph target, string newText )
+        public ReplaceTextCommand( IParagraph target, string newText )
+            : base()
         {
             _target = target;
             _textTemp = newText;

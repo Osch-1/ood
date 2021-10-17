@@ -21,5 +21,13 @@ namespace TextEditor.DocumentItems
         public IImage Image => _image;
 
         public IParagraph Paragraph => _paragraph;
+
+        public override string ToString()
+        {
+            if ( _image is not null )
+                return _image.ToString();
+
+            return _paragraph.ToString();
+        }
     }
 }

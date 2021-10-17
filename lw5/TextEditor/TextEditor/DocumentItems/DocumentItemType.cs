@@ -1,8 +1,9 @@
 ﻿namespace TextEditor.DocumentItems
 {
-    public enum DocumentItemType
+    public enum DocumentItemType : byte
     {
-        Paragrpah,
-        Image
+        Unknown = 0,
+        Image = 1,
+        Paragrpah = 2
     }
 }

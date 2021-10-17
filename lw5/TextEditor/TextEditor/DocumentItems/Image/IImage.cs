@@ -17,6 +17,11 @@
             get;
         }
 
+        public string Name
+        {
+            get;
+        }
+
         public void Resize( int width, int height );
     }
 }

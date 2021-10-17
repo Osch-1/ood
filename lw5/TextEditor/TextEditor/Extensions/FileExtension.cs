@@ -44,6 +44,6 @@ namespace TextEditor.Extensions
         public static bool IsImage( this ReadOnlySpan<byte> data )
         {
             return data.GetKnownFileType() != FileType.Unknown;
-        }
+        }        
     }
 }

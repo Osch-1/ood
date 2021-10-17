@@ -14,7 +14,7 @@ namespace TextEditor.DocumentItems.Image
         private int _width;
         private int _height;
         private string _name;
-        private System.Drawing.Image _image;
+        private readonly System.Drawing.Image _image;
 
         //Might add ctor by file path only
         public Image( int width, int height, string srcPath )
@@ -58,6 +58,8 @@ namespace TextEditor.DocumentItems.Image
 
         public int Height => _height;
 
+        public string Name => _name;
+
         public void Resize( int width, int height )
         {
             if ( width < 0 )
@@ -88,7 +90,7 @@ namespace TextEditor.DocumentItems.Image
 
         public override string ToString()
         {
-            return $"{_width} {_height} {_path}";
+            return $"Image: {_width} {_height} images/{_name}";
         }
 
         private static string GenerateName( string srcPath )

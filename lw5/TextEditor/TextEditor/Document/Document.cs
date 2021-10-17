@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TextEditor.Commands;
 using TextEditor.DocumentItems;
 using TextEditor.DocumentItems.Image;
 using TextEditor.DocumentItems.Paragraph;
 using TextEditor.History;
+using TextEditor.Savers;
 
 namespace TextEditor.Document
 {
@@ -13,26 +15,23 @@ namespace TextEditor.Document
     {
         private List<IDocumentItem> _documentItems = new();
         private string _title = "Document";
-        private DocumentHistory _history = new();
+        private IHistory _history;
+        private string _path;
+        private IDocumentSaver _saver = new AsHtmlSaver();
 
         public int ItemsCount => _documentItems.Count;
 
         public string Title
         {
             get => _title;
-            set => _history.AddAndExecuteCommand( new ChangeFileNameCommand( this, value ) );
+            set => _history.AddAndExecuteCommand( new ChangeDocumentTitleCommand( this, value ) );
         }
 
         public bool CanUndo => _history.CanUndo;
 
         public bool CanRedo => _history.CanRedo;
 
-        public Document()
-        {
-
-        }
-
-        public Document( DocumentHistory history )
+        public Document( IHistory history )
         {
             _history = history;
         }
@@ -42,7 +41,7 @@ namespace TextEditor.Document
             if ( index < 0 || index > _documentItems.Count - 1 )
                 throw new ArgumentOutOfRangeException( nameof( index ) );
 
-            _documentItems.RemoveAt( index );
+            _history.AddAndExecuteCommand( new DeleteItemCommand( _documentItems, index ) );
         }
 
         public IDocumentItem GetItem( int index )
@@ -53,7 +52,7 @@ namespace TextEditor.Document
             return _documentItems[ index ];
         }
 
-        public void InsertImage( int width, int height, string srcPath, int position )
+        public void InsertImage( int width, int height, string srcPath, int? position = null )
         {
             if ( srcPath is null )
                 throw new ArgumentNullException( nameof( srcPath ), "Path can't be null" );
@@ -70,31 +69,40 @@ namespace TextEditor.Document
             if ( position < 0 || position > _documentItems.Count - 1 )
                 throw new ArgumentOutOfRangeException( nameof( position ) );
 
-            _documentItems.Insert( position, new DocumentItem( new Image( width, height, srcPath ) ) );
+            InsertItemCommand command;
+            var documentItem = new DocumentItem( new Image( width, height, srcPath ) );
+            if ( position.HasValue )
+            {
+                command = new InsertItemCommand( _documentItems, documentItem, position );
+            }
+            else
+            {
+                command = new InsertItemCommand( _documentItems, documentItem );
+            }
+
+            _history.AddAndExecuteCommand( command );
         }
 
-        public void InsertImage( int width, int height, string srcPath )
-        {
-            InsertImage( width, height, srcPath, _documentItems.Count - 1 );
-        }
-
-        public void InsertParagraph( string text, int position )
+        public void InsertParagraph( string text, int? position = null )
         {
             if ( text is null )
                 throw new ArgumentNullException( nameof( text ), "Paragraph text can't be null" );
 
-            if ( position > _documentItems.Count - 1 )
+            if ( position.HasValue && position > _documentItems.Count - 1 )
                 throw new ArgumentException();
 
-            _documentItems.Insert( position, new DocumentItem( new Paragraph( text ) ) );
-        }
+            InsertItemCommand command;
+            var documentItem = new DocumentItem( new Paragraph( text ) );
+            if ( position.HasValue )
+            {
+                command = new InsertItemCommand( _documentItems, documentItem, position );
+            }
+            else
+            {
+                command = new InsertItemCommand( _documentItems, documentItem );
+            }
 
-        public void InsertParagraph( string text )
-        {
-            if ( text is null )
-                throw new ArgumentNullException( nameof( text ), "Paragraph text can't be null" );
-
-            InsertParagraph( text, _documentItems.Count - 1 );
+            _history.AddAndExecuteCommand( command );
         }
 
         public void Redo()
@@ -103,15 +111,34 @@ namespace TextEditor.Document
                 _history.Redo();
         }
 
-        public void Save( string path )
-        {
-            throw new NotImplementedException();
-        }
-
         public void Undo()
         {
             if ( CanUndo )
                 _history.Undo();
+        }
+
+        public void Save( string path )
+        {
+            if ( _path != null )
+                Directory.Delete( _path );
+
+            _path = path;
+            SetupDirectory();
+            _saver.Save( _title, _documentItems, _path );
+        }
+
+        private void SetupDirectory()
+        {
+            Directory.CreateDirectory( $"{_path}/TextEditor" );
+        }
+
+        public void List()
+        {
+            Console.WriteLine( $"Title: {_title}" );
+            for ( int i = 0; i < _documentItems.Count; i++ )
+            {
+                Console.WriteLine( $"{i}. {_documentItems[ i ]}" );
+            }
         }
     }
 }

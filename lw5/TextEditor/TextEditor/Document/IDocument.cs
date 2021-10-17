@@ -26,11 +26,9 @@ namespace TextEditor
             get;
         }
 
-        public void InsertParagraph( string text, int position );
+        public void InsertParagraph( string text, int? position = null );
 
-        public void InsertImage( int width, int height, string srcPath, int position );
-
-        public void InsertImage( int width, int height, string srcPath );
+        public void InsertImage( int width, int height, string srcPath, int? position = null );
 
         public IDocumentItem GetItem( int index );
 
@@ -39,6 +37,8 @@ namespace TextEditor
         public void Undo();
 
         public void Redo();
+
+        public void List();
 
         public void Save( string path );
     }

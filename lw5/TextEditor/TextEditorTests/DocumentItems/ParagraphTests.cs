@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using TextEditor.DocumentItems.Paragraph;
 
-namespace TextEditorTests
+namespace TextEditorTests.DocumentItems
 {
     public class ParagrpahTests
     {
