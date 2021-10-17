@@ -23,7 +23,7 @@ namespace TextEditor
             switch ( commandParams[ 0 ] )
             {
                 case CommandsNames.InsertParagraph:
-                    InsertParagrpaph( commandParams );
+                    InsertParagraph( commandParams );
                     break;
                 case CommandsNames.InsertImage:
                     InsertImage( commandParams );
@@ -61,7 +61,7 @@ namespace TextEditor
             }
         }
 
-        private void InsertParagrpaph( List<string> cmdParams )
+        private void InsertParagraph( List<string> cmdParams )
         {
             if ( cmdParams.Count < 3 )
             {
@@ -71,13 +71,13 @@ namespace TextEditor
 
             if ( cmdParams[ 1 ].Equals( "end", StringComparison.OrdinalIgnoreCase ) )
             {
-                _document.InsertParagraph( cmdParams[ 2 ] );
+                _document.InsertParagraph( string.Join( " ", cmdParams.ToArray()[ 2.. ] ) );
             }
             else
             {
                 try
                 {
-                    _document.InsertParagraph( cmdParams[ 2 ], int.Parse( cmdParams[ 1 ] ) );
+                    _document.InsertParagraph( string.Join( " ", cmdParams.ToArray()[ 2.. ] ), int.Parse( cmdParams[ 1 ] ) ); ;
                 }
                 catch ( Exception e )
                 {
@@ -99,7 +99,7 @@ namespace TextEditor
             {
                 try
                 {
-                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 3 ] );
+                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 4 ] );
                 }
                 catch ( Exception e )
                 {
@@ -110,7 +110,7 @@ namespace TextEditor
             {
                 try
                 {
-                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 3 ], int.Parse( cmdParams[ 1 ] ) );
+                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 4 ], int.Parse( cmdParams[ 1 ] ) );
                 }
                 catch ( Exception e )
                 {

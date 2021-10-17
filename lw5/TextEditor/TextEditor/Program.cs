@@ -10,11 +10,15 @@ namespace TextEditor
             TextEditorSettings.InitializeWorkingDirectories();
             DocumentController controller = new();
 
-            string command = "";
-            while ( command != "exit" )
+            while ( true )
             {
                 Console.WriteLine( Resources.CommandsInfo );
-                controller.Handle( ReadCommand() );
+
+                var command = ReadCommand();
+                if ( command.Equals( "exit", StringComparison.OrdinalIgnoreCase ) )
+                    break;
+
+                controller.Handle( command );
             }
 
             Directory.Delete( TextEditorSettings.RootDirectory.Remove( TextEditorSettings.RootDirectory.Length - 1 ), true );
