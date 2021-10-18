@@ -24,7 +24,13 @@ namespace TextEditor.Document
         public string Title
         {
             get => _title;
-            set => _history.AddAndExecuteCommand( new ChangeDocumentTitleCommand( this, value ) );
+            set
+            {
+                if ( string.IsNullOrEmpty( value ) )
+                    throw new ArgumentNullException();
+
+                _titlte = value;
+            }
         }
 
         public bool CanUndo => _history.CanUndo;
@@ -132,7 +138,7 @@ namespace TextEditor.Document
             Directory.CreateDirectory( $"{_path}/TextEditor" );
         }
 
-        public void List()
+        public void List()//return list 
         {
             Console.WriteLine( $"Title: {_title}" );
             for ( int i = 0; i < _documentItems.Count; i++ )

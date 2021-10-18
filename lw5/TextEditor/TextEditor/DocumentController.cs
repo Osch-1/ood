@@ -127,7 +127,7 @@ namespace TextEditor
                 return;
             }
 
-            _document.Title = cmdParams[ 1 ];
+            _history.AddAndExecuteCommand( new ChangeDocumentTitleCommand( _document, cmdParams[ 1 ] ) );
         }
 
         private void ReplaceText( List<string> cmdParams )

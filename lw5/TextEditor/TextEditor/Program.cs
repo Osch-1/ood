@@ -3,6 +3,7 @@ using System.IO;
 
 namespace TextEditor
 {
+    //on fail free resources
     class Program
     {
         public static void Main( string[] args )

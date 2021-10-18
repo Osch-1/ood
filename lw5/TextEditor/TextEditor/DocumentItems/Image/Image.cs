@@ -8,7 +8,7 @@ using TextEditor.Extensions;
 
 namespace TextEditor.DocumentItems.Image
 {
-    public class Image : IImage
+    public class Image : IImage //finalize
     {
         private string _path;
         private int _width;
