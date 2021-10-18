@@ -29,7 +29,7 @@ namespace TextEditor.Document
                 if ( string.IsNullOrEmpty( value ) )
                     throw new ArgumentNullException();
 
-                _titlte = value;
+                _title = value;
             }
         }
 
@@ -126,7 +126,7 @@ namespace TextEditor.Document
         public void Save( string path )
         {
             if ( _path != null )
-                Directory.Delete( _path );
+                Directory.Delete( _path, true );//all images will erase
 
             _path = path;
             SetupDirectory();

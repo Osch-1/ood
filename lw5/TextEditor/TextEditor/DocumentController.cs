@@ -69,21 +69,20 @@ namespace TextEditor
                 return;
             }
 
-            if ( cmdParams[ 1 ].Equals( "end", StringComparison.OrdinalIgnoreCase ) )
+            try
             {
-                _document.InsertParagraph( string.Join( " ", cmdParams.ToArray()[ 2.. ] ) );
-            }
-            else
-            {
-                try
+                if ( cmdParams[ 1 ].Equals( "end", StringComparison.OrdinalIgnoreCase ) )
+                {
+                    _document.InsertParagraph( string.Join( " ", cmdParams.ToArray()[ 2.. ] ) );
+                }
+                else
                 {
                     _document.InsertParagraph( string.Join( " ", cmdParams.ToArray()[ 2.. ] ), int.Parse( cmdParams[ 1 ] ) ); ;
                 }
-                catch ( Exception e )
-                {
-                    Console.WriteLine( e.Message );
-                }
-
+            }
+            catch ( Exception e )
+            {
+                Console.WriteLine( e.Message );
             }
         }
 
@@ -95,27 +94,25 @@ namespace TextEditor
                 return;
             }
 
-            if ( cmdParams[ 1 ].Equals( "end", StringComparison.OrdinalIgnoreCase ) )
+            try
             {
-                try
+                if ( cmdParams[ 1 ].Equals( "end", StringComparison.OrdinalIgnoreCase ) )
                 {
+
                     _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 4 ] );
+
                 }
-                catch ( Exception e )
+                else
                 {
-                    Console.WriteLine( e.Message );
+
+                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 4 ], int.Parse( cmdParams[ 1 ] ) );
+
+
                 }
             }
-            else
+            catch ( Exception e )
             {
-                try
-                {
-                    _document.InsertImage( int.Parse( cmdParams[ 2 ] ), int.Parse( cmdParams[ 3 ] ), cmdParams[ 4 ], int.Parse( cmdParams[ 1 ] ) );
-                }
-                catch ( Exception e )
-                {
-                    Console.WriteLine( e.Message );
-                }
+                Console.WriteLine( e.Message );
             }
         }
 
@@ -127,7 +124,14 @@ namespace TextEditor
                 return;
             }
 
-            _history.AddAndExecuteCommand( new ChangeDocumentTitleCommand( _document, cmdParams[ 1 ] ) );
+            try
+            {
+                _history.AddAndExecuteCommand( new ChangeDocumentTitleCommand( _document, cmdParams[ 1 ] ) );
+            }
+            catch ( Exception e )
+            {
+                Console.WriteLine( e.Message );
+            }
         }
 
         private void ReplaceText( List<string> cmdParams )

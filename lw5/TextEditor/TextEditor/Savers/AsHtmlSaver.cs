@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using TextEditor.Converters.DocumentItemsConverter;
@@ -27,7 +26,7 @@ namespace TextEditor.Savers
         private void SetupStyleCss( string path )
         {
             using FileStream fs = File.Create( $"{PathUtils.NormalizePath( path )}TextEditor/style.css" );
-            byte[] value = new UTF8Encoding( true ).GetBytes( "body { margin: 0 auto; display: flex; justify-content: center; } p {max-width:500px; text-align:center;}" );
+            byte[] value = new UTF8Encoding( true ).GetBytes( "body { margin: 0 auto; display: flex; justify-content: center; }  p {max-width:500px; text-align:center;}" );
             fs.Write( value, 0, value.Length );
         }
 
@@ -39,15 +38,14 @@ namespace TextEditor.Savers
                 {
                     var destPath = $"{path}/TextEditor/{TextEditorSettings.ImagesSubDirectory}";
                     Directory.CreateDirectory( destPath );
-                    File.Move( item.Image.Path, $"{destPath}/{item.Image.Name}" );
+                    File.Copy( item.Image.Path, $"{destPath}/{item.Image.Name}" );
                 }
             }
         }
 
         private string GetDocumentValue( string title, string body )
         {
-            return $"<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"style.css\"><title>{title}</title></head><body><div>{body}</div></body></html>";
-
+            return $"<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"style.css\"><title>{title}</title></head><body><div style=\"display: flex; flex-direction: column;\">{body}</div></body></html>";
         }
     }
 }
