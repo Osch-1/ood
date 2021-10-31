@@ -38,7 +38,7 @@ namespace TextEditorTests.DocumentItemConverter
 
         private string GetExistingImagePath()
         {
-            return @"C:\Users\daniil.gerasimov\MyDocs\Учеба\3_stage\ood less than 3\ood\lw5\TextEditor\TextEditor\Assets\mountain.jpg";
+            return @"Assets\mountain.jpg";
         }
     }
 }

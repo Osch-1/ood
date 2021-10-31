@@ -16,4 +16,10 @@
     <ProjectReference Include="..\TextEditor\TextEditor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\mountain.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
