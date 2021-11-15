@@ -36,7 +36,7 @@ namespace ArtDesigner.Factories
             };
         }
 
-        private Ellipse CreateEllipse( List<string> parameters )
+        private Ellipse CreateEllipse( List<string> parameters )    
         {
             if ( parameters.Count < 5 )
                 throw new ArgumentException();

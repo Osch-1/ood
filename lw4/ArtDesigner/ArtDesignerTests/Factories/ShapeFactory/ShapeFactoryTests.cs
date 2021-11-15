@@ -88,11 +88,62 @@ namespace ArtDesignerTests.Factories
         }
 
         [Test]
-        public void ShapeFactory_CreateShape_ExistingTypeWithIncorrectParamsCount_ThrowsArgumentException()
+        public void ShapeFactory_CreateShape_TriangleWithIncorrectParamsCount_ThrowsArgumentException()
         {
             //Arrange
             var factory = new ShapeFactory();
             string description = "Triangle Red 0 0 0 5";
+
+            //Act
+            void CreateShapeByIncorrectDescription()
+            {
+                factory.CreateShape( description );
+            }
+
+            //Assert
+            Assert.Throws<ArgumentException>( CreateShapeByIncorrectDescription );
+        }
+
+        [Test]
+        public void ShapeFactory_CreateShape_EllipseWithIncorrectParamsCount_ThrowsArgumentException()
+        {
+            //Arrange
+            var factory = new ShapeFactory();
+            string description = "Ellipse Red 0 5";
+
+            //Act
+            void CreateShapeByIncorrectDescription()
+            {
+                factory.CreateShape( description );
+            }
+
+            //Assert
+            Assert.Throws<ArgumentException>( CreateShapeByIncorrectDescription );
+        }
+
+        [Test]
+        public void ShapeFactory_CreateShape_RectangleWithIncorrectParamsCount_ThrowsArgumentException()
+        {
+            //Arrange
+            var factory = new ShapeFactory();
+            string description = "Rectangle Red 0 5";
+
+            //Act
+            void CreateShapeByIncorrectDescription()
+            {
+                factory.CreateShape( description );
+            }
+
+            //Assert
+            Assert.Throws<ArgumentException>( CreateShapeByIncorrectDescription );
+        }
+
+        [Test]
+        public void ShapeFactory_CreateShape_RegularPolygonWithIncorrectParamsCount_ThrowsArgumentException()
+        {
+            //Arrange
+            var factory = new ShapeFactory();
+            string description = "RegularPolygon Red 0 5";
 
             //Act
             void CreateShapeByIncorrectDescription()

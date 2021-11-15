@@ -7,25 +7,25 @@ namespace ArtDesigner.Shapes
     public class Ellipse : Shape
     {
         private Point _center;
-        private int _horizontalRadius;
-        private int _verticalRadius;
+        private int _width;
+        private int _height;
 
-        public Ellipse( Color color, Point center, int horizontalRadius, int verticalRadius )
+        public Ellipse( Color color, Point center, int width, int height )
             : base( color )
         {
-            if ( horizontalRadius <= 0 )
+            if ( width <= 0 )
             {
-                throw new ArgumentOutOfRangeException( nameof( horizontalRadius ) );
+                throw new ArgumentOutOfRangeException( nameof( width ) );
             }
 
-            if ( verticalRadius <= 0 )
+            if ( height <= 0 )
             {
-                throw new ArgumentOutOfRangeException( nameof( verticalRadius ) );
+                throw new ArgumentOutOfRangeException( nameof( height ) );
             }
 
             _center = center;
-            _horizontalRadius = horizontalRadius;
-            _verticalRadius = verticalRadius;
+            _width = width;
+            _height = height;
         }
 
         public Point Center
@@ -33,20 +33,20 @@ namespace ArtDesigner.Shapes
             get => _center;
         }
 
-        public int HorizontalRadius
+        public double HorizontalRadius
         {
-            get => _horizontalRadius;
+            get => _width / 2.0;
         }
 
-        public int VerticalRadius
+        public double VerticalRadius
         {
-            get => _verticalRadius;
+            get => _height / 2.0;
         }
 
         public override void Draw( ICanvas canvas )
         {
             canvas.SetPenColor( Color );
-            canvas.DrawEllipse( Center, HorizontalRadius, VerticalRadius );
+            canvas.DrawEllipse( Center, _width, _height );
         }
     }
 }

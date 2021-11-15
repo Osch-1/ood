@@ -1,4 +1,5 @@
-﻿using ArtDesigner.Models;
+﻿using System;
+using ArtDesigner.Models;
 using ArtDesigner.Factories;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace ArtDesigner
 {
     public interface IDesigner
     {
-        public PictureDraft CreateDraft( List<string> shapeDescriptions );
+        public PictureDraft CreateDraft( List<string> shapesDescriptions );
     }
 
     public class Designer : IDesigner
@@ -18,11 +19,16 @@ namespace ArtDesigner
             _shapeFactory = shapeFactory;
         }
 
-        public PictureDraft CreateDraft( List<string> shapeDescriptions )
+        public PictureDraft CreateDraft( List<string> shapesDescriptions )
         {
+            if ( shapesDescriptions is null )
+            {
+                throw new ArgumentNullException( nameof( shapesDescriptions ) );
+            }
+
             PictureDraft pictureDraft = new();
 
-            foreach ( var shapeDescription in shapeDescriptions )
+            foreach ( var shapeDescription in shapesDescriptions )
             {
                 try
                 {                    
@@ -30,8 +36,8 @@ namespace ArtDesigner
                 }
                 catch //( ShapeCreationByDescriptionException )
                 {
-                    //log error and continue, doesnt throw
-                    //other exception will be thrown
+                    //add exception hierarchy to prevent showing system errors to user
+                    //other exception wont be thrown
                     throw;
                 }
             }
