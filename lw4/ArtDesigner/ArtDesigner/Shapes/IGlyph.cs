@@ -1,11 +1,10 @@
 ﻿using ArtDesigner.Canvas;
-using ArtDesigner.Primitives;
 
 namespace ArtDesigner.Shapes
 {
-    public interface IShape
+    // goes against Interface segregation principle
+    public interface IGlyph
     {
-        public Color Color { get; set; }
         public void Draw( ICanvas canvas );
     }
 }

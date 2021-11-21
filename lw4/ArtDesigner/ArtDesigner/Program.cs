@@ -23,7 +23,7 @@ namespace ArtDesigner
             }
 
             ICanvas canvas = new InfoPrintingCanvas();
-            IShapeFactory shapeFactory = new ShapeFactory();
+            IGlyphFactory shapeFactory = new GlyphFactory();
             IDesigner designer = new Designer( shapeFactory );
 
             try

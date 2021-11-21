@@ -6,11 +6,11 @@ namespace ArtDesigner.Models
 {
     public class PictureDraft
     {
-        private List<IShape> _shapes = new();
+        private List<IGlyph> _shapes = new();
 
-        public IReadOnlyList<IShape> Shapes => _shapes;
+        public IReadOnlyList<IGlyph> Shapes => _shapes;
 
-        public void AddShape( IShape shape )
+        public void AddGlyph( IGlyph shape )
         {
             if ( shape is null )
             {

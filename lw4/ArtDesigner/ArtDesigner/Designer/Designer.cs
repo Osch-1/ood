@@ -12,27 +12,27 @@ namespace ArtDesigner
 
     public class Designer : IDesigner
     {
-        private readonly IShapeFactory _shapeFactory;
+        private readonly IGlyphFactory _shapeFactory;
 
-        public Designer( IShapeFactory shapeFactory )
+        public Designer( IGlyphFactory shapeFactory )
         {
             _shapeFactory = shapeFactory;
         }
 
-        public PictureDraft CreateDraft( List<string> shapesDescriptions )
+        public PictureDraft CreateDraft( List<string> glyphsDescriptions )
         {
-            if ( shapesDescriptions is null )
+            if ( glyphsDescriptions is null )
             {
-                throw new ArgumentNullException( nameof( shapesDescriptions ) );
+                throw new ArgumentNullException( nameof( glyphsDescriptions ) );
             }
 
             PictureDraft pictureDraft = new();
 
-            foreach ( var shapeDescription in shapesDescriptions )
+            foreach ( var glyphDescription in glyphsDescriptions )
             {
                 try
                 {                    
-                    pictureDraft.AddShape( _shapeFactory.CreateShape( shapeDescription ) );
+                    pictureDraft.AddGlyph( _shapeFactory.Create( glyphDescription ) );
                 }
                 catch //( ShapeCreationByDescriptionException )
                 {

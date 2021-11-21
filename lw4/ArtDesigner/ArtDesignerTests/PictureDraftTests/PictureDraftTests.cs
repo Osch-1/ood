@@ -15,7 +15,7 @@ namespace ArtDesignerTests.PictureDraftTests
             //Act
             void AddNullShape()
             {
-                draft.AddShape( null );
+                draft.AddGlyph( null );
             }
 
             //Assert

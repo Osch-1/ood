@@ -6,4 +6,8 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aspose.Drawing" Version="21.10.0" />
+  </ItemGroup>
+
 </Project>

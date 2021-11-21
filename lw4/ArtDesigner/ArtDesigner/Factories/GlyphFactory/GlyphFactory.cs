@@ -6,17 +6,18 @@ using System.Collections.Generic;
 
 namespace ArtDesigner.Factories
 {
-    public class ShapeFactory : IShapeFactory
+    public class GlyphFactory : IGlyphFactory
     {
-        private static readonly HashSet<string> _supportedShapes = new() { "Ellipse", "Rectangle", "RegularPolygon", "Triangle" };
-        public IShape CreateShape( string description )
+        private static readonly HashSet<string> _supportedGlyphs = new() { "Ellipse", "Rectangle", "RegularPolygon", "Triangle" };
+
+        public IGlyph Create( string description )
         {
             var parameters = description.Split( ' ' );
 
-            string shapeType = parameters[ 0 ];
-            if ( _supportedShapes.Contains( shapeType ) )
+            string glyphType = parameters[ 0 ];
+            if ( _supportedGlyphs.Contains( glyphType ) )
             {
-                return CreateShape( shapeType, parameters[ 1.. ].ToList() );
+                return CreateGlyph( glyphType, parameters[ 1.. ].ToList() );
             }
             else
             {
@@ -24,15 +25,15 @@ namespace ArtDesigner.Factories
             }
         }
 
-        private IShape CreateShape( string shapeType, List<string> parameters )
+        private IGlyph CreateGlyph( string glyphType, List<string> parameters )
         {
-            return shapeType switch
+            return glyphType switch
             {
                 "Ellipse" => CreateEllipse( parameters ),
                 "Rectangle" => CreateRectangle( parameters ),
                 "RegularPolygon" => CreateRegularPolygon( parameters ),
                 "Triangle" => CreateTriangle( parameters ),
-                _ => throw new ArgumentException( nameof( shapeType ) ),
+                _ => throw new ArgumentException( nameof( glyphType ) ),
             };
         }
 

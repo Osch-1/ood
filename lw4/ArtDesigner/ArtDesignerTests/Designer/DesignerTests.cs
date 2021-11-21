@@ -15,7 +15,7 @@ namespace ArtDesignerTests
         public void Designer_CreateDraft_CorrectDescriptionsList_ExpectedPictureDraft()
         {
             //Arrange
-            IShapeFactory shapeFactory = new ShapeFactory();
+            IGlyphFactory shapeFactory = new GlyphFactory();
             Designer designer = new( shapeFactory );
             List<string> shapesDescriptions = new() { "Rectangle Red 0 5 10 5", "Ellipse Black 0 0 10 5", "RegularPolygon Black 0 0 5 3", "Triangle Red 0 0 0 5 5 0" };
 
@@ -63,7 +63,7 @@ namespace ArtDesignerTests
         public void Designer_CreateDraft_Null_ThrowsArgumentNullException()
         {
             //Arrange
-            IShapeFactory shapeFactory = new ShapeFactory();
+            IGlyphFactory shapeFactory = new GlyphFactory();
             Designer designer = new( shapeFactory );
 
             //Act

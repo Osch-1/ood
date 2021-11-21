@@ -3,9 +3,9 @@ using ArtDesigner.Primitives;
 
 namespace ArtDesigner.Shapes
 {
-    public abstract class Shape : IShape
+    public abstract class Shape : IGlyph
     {
-        private Color _color;
+        private Color _color; // сложный цвет
 
         public Color Color
         {
