@@ -7,7 +7,6 @@ using System.Text;
 
 namespace MeDrawerTests
 {
-
     public class ModernGraphicsRendererAdapterTests
     {
         [Fact]
