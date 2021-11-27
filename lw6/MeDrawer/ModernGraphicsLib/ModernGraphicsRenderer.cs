@@ -6,7 +6,7 @@ namespace ModernGraphicsLib
     {
         private const string _openingTag = "<draw>";
         private const string _closingTag = "</draw>";
-        private const string _drawLineTagTemplate = "<line fromX=\"{0}\" fromY=\"{1}\" toX=\"{2}\" toY=\"{3}\"/\n>";
+        private const string _drawLineTagTemplate = "<line fromX=\"{0}\" fromY=\"{1}\" toX=\"{2}\" toY=\"{3}\">\n  <color r=\"{4}\" g=\"{5}\" b=\"{6}\" a=\"{7}\" />\n</line>";
 
         private static readonly byte[] _openingTagBytes = Encoding.UTF8.GetBytes( _openingTag );
         private static readonly byte[] _closingTagBytes = Encoding.UTF8.GetBytes( _closingTag );
@@ -40,14 +40,14 @@ namespace ModernGraphicsLib
             _drawing = true;
         }
 
-        public void DrawLine( Point start, Point end )
+        public void DrawLine( Point start, Point end, RGBAColor color )
         {
             if ( !_drawing )
             {
                 throw new InvalidOperationException();
             }
 
-            var drawLineTagWithValues = string.Format( _drawLineTagTemplate, start.X, start.Y, end.X, end.Y );
+            var drawLineTagWithValues = string.Format( _drawLineTagTemplate, start.X, start.Y, end.X, end.Y, color.R, color.G, color.B, color.A );
             _stream.Write( Encoding.UTF8.GetBytes( drawLineTagWithValues ) );
         }
 

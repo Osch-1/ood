@@ -8,6 +8,7 @@ namespace MeDrawer
     {
         private readonly ModernGraphicsRenderer _renderer;
 
+        private RGBAColor _color = new( 0, 0, 0, 1 );
         private ModernPoint _currentPoint = new( 0, 0 );
 
         public ModernGraphicsRendererAdapter( ModernGraphicsRenderer renderer )
@@ -16,9 +17,19 @@ namespace MeDrawer
             _renderer.BeginDraw();
         }
 
+        public void SetColor( int rgbColor )
+        {
+            if ( rgbColor < 0 )
+            {
+                throw new ArgumentOutOfRangeException( nameof( rgbColor ) );
+            }
+
+            _color = new RGBAColor( ( rgbColor >> 16 ) & 0xff, ( rgbColor >> 8 ) & 0xff, rgbColor & 0xff, 1 );
+        }
+
         public void LineTo( int x, int y )
         {
-            _renderer.DrawLine( _currentPoint, new( x, y ) );
+            _renderer.DrawLine( _currentPoint, new( x, y ), _color );
             MoveTo( x, y );
         }
 
@@ -36,4 +47,6 @@ namespace MeDrawer
             GC.SuppressFinalize( this );
         }
     }
+
+
 }
