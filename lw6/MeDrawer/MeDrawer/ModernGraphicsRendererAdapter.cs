@@ -47,6 +47,4 @@ namespace MeDrawer
             GC.SuppressFinalize( this );
         }
     }
-
-
 }
