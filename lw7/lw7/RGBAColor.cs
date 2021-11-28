@@ -5,17 +5,17 @@
     /// </summary>
     public class RGBAColor : IRGBAColor
     {
-        private double _r;
-        private double _g;
-        private double _b;
+        private int _r;
+        private int _g;
+        private int _b;
         private double _a;
 
-        public double R => _r;
-        public double G => _g;
-        public double B => _b;
+        public int R => _r;
+        public int G => _g;
+        public int B => _b;
         public double A => _a;
 
-        public RGBAColor( double r, double g, double b, double a )
+        public RGBAColor( int r, int g, int b, double a )
         {
             _r = r;
             _g = g;
