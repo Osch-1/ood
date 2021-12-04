@@ -32,7 +32,7 @@
             _leftTop = leftTop;
             _width = width;
             _height = height;
-//            SetFrame(new Frame());;
+            //SetFrame(new Frame());
         }
 
         public override void Draw( ICanvas canvas )

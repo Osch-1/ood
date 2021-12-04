@@ -2,19 +2,24 @@
 {
     public class CompositeFillStyle : IFillStyle
     {
-        private IStylesContainer<IFillStyle> _stylesContainer;
+        private IStylesEnumerator<IFillStyle> _stylesEnumerator;
 
         public bool IsEnabled
         {
             get
             {
-                var styles = _stylesContainer?.Get();
-                if ( styles is null )
+                bool isEnabled = true;
+                void checkIsEnable( IFillStyle style )
                 {
-                    return false;
-                }
+                    if ( isEnabled && style is not null )
+                    {
+                        isEnabled = style.IsEnabled;
+                    }
+                };
 
-                return styles.All( s => s is not null && s.IsEnabled );
+                _stylesEnumerator?.Enumerate( checkIsEnable );
+
+                return isEnabled;
             }
         }
 
@@ -22,63 +27,60 @@
         {
             get
             {
-                IReadOnlyList<IFillStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
+                IRGBAColor color = null;
+                void action( IFillStyle style )
                 {
-                    return null;
-                }
-
-                var firstStyle = styles.First();
-                foreach ( IFillStyle style in styles )
-                {
-                    if ( !style.Equals( firstStyle ) )
+                    if ( color == null || style.Color == color )
                     {
-                        return null;
+                        color = style.Color;
+                    }
+                    else
+                    {
+                        color = null;
                     }
                 }
 
-                return firstStyle.Color;
+                _stylesEnumerator?.Enumerate( action );
+                return color;
             }
 
             set
             {
-                IReadOnlyList<IFillStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
-                {
-                    throw new InvalidOperationException( "Can't set style due to current state of container (style empty or null)" );
-                }
-
-                foreach ( IFillStyle style in styles )
+                void action( IFillStyle style )
                 {
                     if ( style is not null )
                     {
                         style.Color = value;
                     }
                 }
+
+                _stylesEnumerator?.Enumerate( action );
             }
         }
 
-        public CompositeFillStyle( IStylesContainer<IFillStyle> stylesContainer )
+        public CompositeFillStyle( IStylesEnumerator<IFillStyle> stylesContainer )
         {
-            _stylesContainer = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
+            _stylesEnumerator = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
         }
 
         public void Enable()
         {
-            IEnumerable<IFillStyle> styles = _stylesContainer?.Get();
-            foreach ( IFillStyle style in styles )
+            static void action( IFillStyle style )
             {
-                style.Enable();
+                style?.Enable();
             }
+
+            _stylesEnumerator.Enumerate( action );
         }
 
         public void Disable()
         {
-            IEnumerable<IFillStyle> styles = _stylesContainer?.Get();
-            foreach ( IFillStyle style in styles )
+            static void action( IFillStyle style )
             {
-                style.Disable();
+                style?.Disable();
             }
+
+            _stylesEnumerator.Enumerate( action );
         }
 
         public bool Equals( IFillStyle other )

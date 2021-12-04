@@ -2,14 +2,14 @@
 
 namespace lw7.Shapes
 {
-    public class CompositeShape : IGroup, IStylesContainer<IFillStyle>, IStylesContainer<IBorderStyle>
+    public class CompositeShape : IGroup, IStylesEnumerator<IFillStyle>, IStylesEnumerator<IBorderStyle>
     {
         /// <summary>
         /// Stores link on parent object, null if shape isn't in group
         /// </summary>
         private IGroup _parent;
         /// <summary>
-        /// List of managed shapes
+        /// List of shapes in group
         /// </summary>
         private List<IShape> _shapes = new();
 
@@ -68,7 +68,7 @@ namespace lw7.Shapes
             }
             catch ( Exception ex )
             {
-                //log
+                //do smth
                 throw;
             }
         }
@@ -102,14 +102,20 @@ namespace lw7.Shapes
             _shapes.RemoveAt( index );
         }
 
-        IReadOnlyList<IFillStyle> IStylesContainer<IFillStyle>.Get()
+        void IStylesEnumerator<IFillStyle>.Enumerate( Action<IFillStyle> action )
         {
-            return _shapes.Select( s => s.FillStyle ).ToList();
+            foreach ( var shape in _shapes )
+            {
+                action( shape.FillStyle );
+            }
         }
 
-        IReadOnlyList<IBorderStyle> IStylesContainer<IBorderStyle>.Get()
+        void IStylesEnumerator<IBorderStyle>.Enumerate( Action<IBorderStyle> action )
         {
-            return _shapes.Select( s => s.BorderStyle ).ToList();
+            foreach ( var shape in _shapes )
+            {
+                action( shape.BorderStyle );
+            }
         }
 
         public void SetFrame( Frame frame )

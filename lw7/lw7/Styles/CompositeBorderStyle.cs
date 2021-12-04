@@ -2,19 +2,24 @@
 {
     public class CompositeBorderStyle : IBorderStyle
     {
-        private IStylesContainer<IBorderStyle> _stylesContainer;
+        private IStylesEnumerator<IBorderStyle> _stylesEnumerator;
 
         public bool IsEnabled
         {
             get
             {
-                var styles = _stylesContainer?.Get();
-                if ( styles is null )
+                bool isEnabled = true;
+                void checkIsEnable( IBorderStyle style )
                 {
-                    return false;
-                }
+                    if ( isEnabled && style is not null )
+                    {
+                        isEnabled = style.IsEnabled;
+                    }
+                };
 
-                return styles.All( s => s is not null && s.IsEnabled );
+                _stylesEnumerator?.Enumerate( checkIsEnable );
+
+                return isEnabled;
             }
         }
 
@@ -22,37 +27,34 @@
         {
             get
             {
-                IReadOnlyList<IBorderStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
-                    return null;
-
-                var firstStyle = styles[ 0 ];
-                foreach ( IBorderStyle style in styles )
+                IRGBAColor color = null;
+                void action( IBorderStyle style )
                 {
-                    if ( !style.Equals( firstStyle ) )
+                    if ( color == null || style.Color == color )
                     {
-                        return null;
+                        color = style.Color;
+                    }
+                    else
+                    {
+                        color = null;
                     }
                 }
 
-                return firstStyle.Color;
+                _stylesEnumerator?.Enumerate( action );
+                return color;
             }
 
             set
             {
-                IReadOnlyList<IBorderStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
-                {
-                    throw new InvalidOperationException( "Can't set color due to current state of container (style empty or null)" );
-                }
-
-                foreach ( IBorderStyle style in styles )
+                void action( IBorderStyle style )
                 {
                     if ( style is not null )
                     {
                         style.Color = value;
                     }
                 }
+
+                _stylesEnumerator?.Enumerate( action );
             }
         }
 
@@ -60,59 +62,65 @@
         {
             get
             {
-                IReadOnlyList<IBorderStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
-                    return 0;
-
-                var firstStyle = styles.First();
-                foreach ( IBorderStyle style in styles )
+                double borderHeight = -1;
+                void action( IBorderStyle style )
                 {
-                    if ( !style.Equals( firstStyle ) )
-                        return 0;
+                    if ( borderHeight == -1 || style.BorderHeight == borderHeight )
+                    {
+                        borderHeight = style.BorderHeight;
+                    }
+                    else
+                    {
+                        borderHeight = -1;
+                    }
                 }
 
-                return firstStyle.BorderHeight;
+                _stylesEnumerator?.Enumerate( action );
+                return borderHeight;
             }
 
             set
             {
-                IReadOnlyList<IBorderStyle> styles = _stylesContainer?.Get();
-                if ( styles is null || !styles.Any() )
+                if ( value <= 0 )
                 {
-                    throw new InvalidOperationException( "Can't set border height due to current state of container (style empty or null)" );
+                    throw new ArgumentOutOfRangeException( nameof( value ) );
                 }
 
-                foreach ( IBorderStyle style in styles )
+                void action( IBorderStyle style )
                 {
                     if ( style is not null )
                     {
                         style.BorderHeight = value;
                     }
                 }
+
+                _stylesEnumerator?.Enumerate( action );
             }
         }
 
-        public CompositeBorderStyle( IStylesContainer<IBorderStyle> stylesContainer )
+        public CompositeBorderStyle( IStylesEnumerator<IBorderStyle> stylesContainer )
         {
-            _stylesContainer = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
+            _stylesEnumerator = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
         }
 
         public void Enable()
         {
-            IEnumerable<IBorderStyle> styles = _stylesContainer?.Get();
-            foreach ( IBorderStyle style in styles )
+            static void action( IBorderStyle style )
             {
-                style.Enable();
+                style?.Enable();
             }
+
+            _stylesEnumerator.Enumerate( action );
         }
 
         public void Disable()
         {
-            IEnumerable<IBorderStyle> styles = _stylesContainer?.Get();
-            foreach ( IBorderStyle style in styles )
+            static void action( IBorderStyle style )
             {
-                style.Disable();
+                style?.Disable();
             }
+
+            _stylesEnumerator.Enumerate( action );
         }
 
         public bool Equals( IBorderStyle other )
