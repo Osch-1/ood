@@ -9,7 +9,7 @@
             get
             {
                 bool isEnabled = true;
-                void checkIsEnable( IFillStyle style )
+                void action( IFillStyle style )
                 {
                     if ( isEnabled && style is not null )
                     {
@@ -17,7 +17,7 @@
                     }
                 };
 
-                _stylesEnumerator?.Enumerate( checkIsEnable );
+                _stylesEnumerator?.Enumerate( action );
 
                 return isEnabled;
             }

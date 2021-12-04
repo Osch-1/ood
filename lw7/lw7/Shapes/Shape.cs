@@ -4,7 +4,7 @@
     {
         private IFillStyle _fillStyle;
         private IBorderStyle _borderStyle;
-        private IGroup _parent;
+        private ICompositeShape _parent;
         private Frame _frame;
 
         public Frame Frame => _frame;
@@ -19,9 +19,9 @@
             get => _borderStyle;
         }
 
-        public IGroup Group => _parent;
+        public ICompositeShape Group => null;
 
-        public IGroup Parent
+        public ICompositeShape Parent
         {
             get => _parent;
             set => _parent = value;

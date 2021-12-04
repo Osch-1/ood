@@ -2,7 +2,7 @@
 {
     public static class ShapesExtensions
     {
-        public static bool HasParent( this IShape context, IGroup expectedParent )
+        public static bool HasParent( this IShape context, ICompositeShape expectedParent )
         {
             if ( context is null )
             {
@@ -14,7 +14,7 @@
                 throw new ArgumentNullException( nameof( expectedParent ) );
             }
 
-            IGroup parent = context.Parent;
+            ICompositeShape parent = context.Parent;
 
             while ( parent != null )
             {

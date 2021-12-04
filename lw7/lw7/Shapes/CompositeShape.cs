@@ -2,12 +2,12 @@
 
 namespace lw7.Shapes
 {
-    public class CompositeShape : IGroup, IStylesEnumerator<IFillStyle>, IStylesEnumerator<IBorderStyle>
+    public class CompositeShape : ICompositeShape, IStylesEnumerator<IFillStyle>, IStylesEnumerator<IBorderStyle>
     {
         /// <summary>
         /// Stores link on parent object, null if shape isn't in group
         /// </summary>
-        private IGroup _parent;
+        private ICompositeShape _parent;
         /// <summary>
         /// List of shapes in group
         /// </summary>
@@ -30,9 +30,9 @@ namespace lw7.Shapes
             get => _borderStyle;
         }
 
-        public IGroup Group => this;
+        public ICompositeShape Group => this;
 
-        public IGroup Parent
+        public ICompositeShape Parent
         {
             get => _parent;
             set => _parent = value;

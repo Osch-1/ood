@@ -5,8 +5,8 @@
         public Frame Frame { get; }
         public IFillStyle FillStyle { get; }
         public IBorderStyle BorderStyle { get; }
-        public IGroup Group { get; }
-        public IGroup Parent { get; set; }
+        public ICompositeShape Group { get; }
+        public ICompositeShape Parent { get; set; }
         public void SetFrame( Frame frame );
     }
 }

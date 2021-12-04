@@ -1,6 +1,6 @@
 ﻿namespace lw7
 {
-    public interface IGroup : IShape
+    public interface ICompositeShape: IShape
     {
         public int ShapesCount { get; }
         public IShape GetShapeAt( int index );
