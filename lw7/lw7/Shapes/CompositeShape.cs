@@ -12,6 +12,7 @@ namespace lw7.Shapes
         /// List of shapes in group
         /// </summary>
         private List<IShape> _shapes = new();
+        private Frame _frame;
 
         private CompositeFillStyle _fillStyle;
         private CompositeBorderStyle _borderStyle;
@@ -30,7 +31,7 @@ namespace lw7.Shapes
             get => _borderStyle;
         }
 
-        public ICompositeShape Group => this;
+        public ICompositeShape Composite => this;
 
         public ICompositeShape Parent
         {
@@ -38,10 +39,61 @@ namespace lw7.Shapes
             set => _parent = value;
         }
 
-        public CompositeShape()
+        public CompositeShape( IShape shape )
         {
+            if ( shape is null )
+            {
+                throw new ArgumentNullException( nameof( shape ) );
+            }
+
             _fillStyle = new( this );
             _borderStyle = new( this );
+            _shapes.Add( shape );
+
+            SetFrame( CountFrame() );
+        }
+
+        public void Draw( ICanvas canvas )
+        {
+            foreach ( var shape in _shapes )
+            {
+                shape.Draw( canvas );
+            }
+        }
+
+        public void SetFrame( Frame frame )
+        {
+            TransformSettings transformSettings = new();
+            if ( frame.LeftTop != _frame.LeftTop )
+            {
+                // move group
+                double horizontalOffset = frame.LeftTopX - frame.LeftTopY;
+                double verticalOffset = frame.LeftTopY - frame.LeftTopY;
+
+                transformSettings.HorizontalOffset = horizontalOffset;
+                transformSettings.VerticalOffset = verticalOffset;
+            }
+
+            if ( frame.Width != _frame.Width )
+            {
+                // horizontal scale
+                double scailingRatio = frame.Width / _frame.Width;
+                transformSettings.HorizontalScailing = scailingRatio;
+            }
+
+            if ( frame.Height != _frame.Height )
+            {
+                // vertical scale
+                double scailingRatio = frame.Height / _frame.Height;
+                transformSettings.VerticalScailing = scailingRatio;
+            }
+
+            foreach ( var shape in _shapes )
+            {
+                shape.SetFrame( CountNewFrame( shape.Frame, transformSettings ) );
+            }
+
+            _frame = frame;
         }
 
         public void AddShape( IShape shape )
@@ -70,14 +122,6 @@ namespace lw7.Shapes
             {
                 //do smth
                 throw;
-            }
-        }
-
-        public void Draw( ICanvas canvas )
-        {
-            foreach ( var shape in _shapes )
-            {
-                shape.Draw( canvas );
             }
         }
 
@@ -118,11 +162,6 @@ namespace lw7.Shapes
             }
         }
 
-        public void SetFrame( Frame frame )
-        {
-            throw new NotImplementedException();
-        }
-
         private Frame CountFrame()
         {
             if ( _shapes is null || ( _shapes.Count == 0 ) )
@@ -130,9 +169,55 @@ namespace lw7.Shapes
                 return null;
             }
 
-            //count frame;
+            List<double> xes = new();
+            List<double> ys = new();
 
-            return null;
+            foreach ( var shape in _shapes )
+            {
+                xes.Add( shape.Frame.LeftTopX );
+                ys.Add( shape.Frame.LeftTopY );
+            }
+
+            double maxX = xes.Max();
+            double minX = xes.Min();
+            double maxY = ys.Max();
+            double minY = ys.Min();
+
+            double frameWidth = maxX - minX;
+            double frameHeight = maxY - minY;
+
+            return new Frame( minX, maxY, frameWidth, frameHeight );
+        }
+
+        private static Frame CountNewFrame( Frame currentFrame, TransformSettings transformSettings )
+        {
+            double leftTopX = currentFrame.LeftTopX + transformSettings.HorizontalOffset;
+            double leftTopY = currentFrame.LeftTopY + transformSettings.VerticalOffset;
+
+            double width = currentFrame.Width * transformSettings.HorizontalScailing;
+            double height = currentFrame.Height * transformSettings.VerticalScailing;
+
+            return new Frame( leftTopX, leftTopY, width, height );
+        }
+
+        private class TransformSettings
+        {
+            /// <summary>
+            /// x' - x, defines metric on which group has been moved horizontally
+            /// </summary>
+            public double HorizontalOffset { get; set; }
+            /// <summary>
+            /// y' - y, defines metric on which group has been moved vertically
+            /// </summary>
+            public double VerticalOffset { get; set; }
+            /// <summary>
+            /// w' / w, defines horizontal scailing
+            /// </summary>
+            public double HorizontalScailing { get; set; }
+            /// <summary>
+            /// h' / h, defines vertical scailing
+            /// </summary>
+            public double VerticalScailing { get; set; }
         }
     }
 }

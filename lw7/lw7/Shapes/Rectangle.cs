@@ -28,11 +28,22 @@
         }
 
         public Rectangle( Point leftTop, double width, double height )
+            : base()
         {
+            if ( width <= 0 )
+            {
+                throw new ArgumentOutOfRangeException( nameof( width ) );
+            }
+
+            if ( height <= 0 )
+            {
+                throw new ArgumentOutOfRangeException( nameof( height ) );
+            }
+
             _leftTop = leftTop;
             _width = width;
             _height = height;
-            //SetFrame(new Frame());
+            SetFrame( new Frame( leftTop.X, leftTop.Y, width, height ) );
         }
 
         public override void Draw( ICanvas canvas )

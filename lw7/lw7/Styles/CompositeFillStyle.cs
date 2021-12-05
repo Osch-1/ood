@@ -23,11 +23,11 @@
             }
         }
 
-        public IRGBAColor Color
+        public RGBAColor Color
         {
             get
             {
-                IRGBAColor color = null;
+                RGBAColor color = null;
                 void action( IFillStyle style )
                 {
                     if ( color == null || style.Color == color )

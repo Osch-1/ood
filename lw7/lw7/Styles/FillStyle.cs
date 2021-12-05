@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace lw7.Styles
+﻿namespace lw7.Styles
 {
     public class FillStyle : IFillStyle
     {
-        public bool IsEnabled => throw new NotImplementedException();
+        private RGBAColor _color = new( 0, 0, 0, 1 );
+        private bool _isEnabled = true;
 
-        public IRGBAColor Color
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+        public bool IsEnabled => _isEnabled;
 
-        public void Disable()
+        public RGBAColor Color
         {
-            throw new NotImplementedException();
+            get => _color;
+            set
+            {
+                if ( value is not null )
+                {
+                    _color = value;
+                }
+            }
         }
 
         public void Enable()
         {
-            throw new NotImplementedException();
+            _isEnabled = true;
         }
 
-        public bool Equals( IFillStyle other )
+        public void Disable()
         {
-            throw new NotImplementedException();
+            _isEnabled = false;
         }
     }
 }

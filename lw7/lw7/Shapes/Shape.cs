@@ -1,4 +1,6 @@
-﻿namespace lw7.Shapes
+﻿using lw7.Styles;
+
+namespace lw7.Shapes
 {
     public abstract class Shape : IShape
     {
@@ -19,7 +21,7 @@
             get => _borderStyle;
         }
 
-        public ICompositeShape Group => null;
+        public ICompositeShape Composite => null;
 
         public ICompositeShape Parent
         {
@@ -27,9 +29,10 @@
             set => _parent = value;
         }
 
-        public override int GetHashCode()
+        public Shape()
         {
-            return HashCode.Combine( _fillStyle, _borderStyle, Frame, FillStyle, BorderStyle, Group );
+            _fillStyle = new FillStyle();
+            _borderStyle = new BorderStyle();
         }
 
         public virtual void SetFrame( Frame frame )

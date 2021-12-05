@@ -1,40 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace lw7.Styles
+﻿namespace lw7.Styles
 {
     public class BorderStyle : IBorderStyle
     {
+        private RGBAColor _color = new ( 0, 0, 0, 1 );
+        private bool _isEnabled = true;
+        private double _borderHeight = 1;
+
         public double BorderHeight
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => _borderHeight;
+            set
+            {
+                if ( value < 0 )
+                {
+                    throw new ArgumentOutOfRangeException( nameof( value ) );
+                }
+
+                _borderHeight = value;
+            }
         }
 
-        public bool IsEnabled => throw new NotImplementedException();
+        public bool IsEnabled => _isEnabled;
 
-        public IRGBAColor Color
+        public RGBAColor Color
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-
-        public void Disable()
-        {
-            throw new NotImplementedException();
+            get => _color;
+            set
+            {
+                if ( value is not null )
+                {
+                    _color = value;
+                }
+            }
         }
 
         public void Enable()
         {
-            throw new NotImplementedException();
+            _isEnabled = true;
         }
 
-        public bool Equals( IBorderStyle other )
+        public void Disable()
         {
-            throw new NotImplementedException();
+            _isEnabled = false;
         }
     }
 }

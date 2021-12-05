@@ -39,5 +39,10 @@
         {
             return HashCode.Combine( _x, _y );
         }
+
+        public override string ToString()
+        {
+            return $"{_x}:{_y}";
+        }
     }
 }

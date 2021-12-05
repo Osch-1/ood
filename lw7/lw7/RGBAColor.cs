@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents RGBA color
     /// </summary>
-    public class RGBAColor : IRGBAColor
+    public class RGBAColor
     {
         private int _r;
         private int _g;
