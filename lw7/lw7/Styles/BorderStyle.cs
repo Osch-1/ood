@@ -2,7 +2,7 @@
 {
     public class BorderStyle : IBorderStyle
     {
-        private RGBAColor _color = new ( 0, 0, 0, 1 );
+        private RGBAColor _color = new( 0, 0, 0, 1 );
         private bool _isEnabled = true;
         private double _borderHeight = 1;
 
@@ -14,6 +14,11 @@
                 if ( value < 0 )
                 {
                     throw new ArgumentOutOfRangeException( nameof( value ) );
+                }
+
+                if ( value == 0 )
+                {
+                    Disable();
                 }
 
                 _borderHeight = value;

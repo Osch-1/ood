@@ -19,7 +19,7 @@
         public override void SetFrame( Frame frame )
         {
             base.SetFrame( frame );
-
+            //
         }
 
         private Frame CountFrame()

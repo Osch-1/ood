@@ -1,4 +1,6 @@
-﻿namespace lw7
+﻿using lw7.Styles;
+
+namespace lw7
 {
     public interface IShape : IDrawable
     {

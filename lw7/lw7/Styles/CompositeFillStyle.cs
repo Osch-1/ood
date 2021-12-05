@@ -1,15 +1,16 @@
 ﻿namespace lw7.Styles
 {
-    public class CompositeFillStyle : IFillStyle
+    public abstract class CompositeStyle<T> : IStyle
+        where T : IStyle
     {
-        private IStylesEnumerator<IFillStyle> _stylesEnumerator;
+        protected IStylesEnumerator<T> _stylesEnumerator;
 
         public bool IsEnabled
         {
             get
             {
                 bool isEnabled = true;
-                void action( IFillStyle style )
+                void action( T style )
                 {
                     if ( isEnabled && style is not null )
                     {
@@ -28,44 +29,41 @@
             get
             {
                 RGBAColor color = null;
-                void action( IFillStyle style )
+                RGBAColor firstColor = null;
+                void action( T style )
                 {
-                    if ( color == null || style.Color == color )
+                    if ( color == null )
                     {
-                        color = style.Color;
+                        firstColor = style.Color;
                     }
-                    else
-                    {
-                        color = null;
-                    }
+
+                    color = style.Color;
                 }
 
                 _stylesEnumerator?.Enumerate( action );
-                return color;
+
+                return color.Equals( firstColor ) ? color : null;
             }
 
             set
             {
-                void action( IFillStyle style )
+                void action( T style )
                 {
-                    if ( style is not null )
-                    {
-                        style.Color = value;
-                    }
+                    style.Color = value;
                 }
 
                 _stylesEnumerator?.Enumerate( action );
             }
         }
 
-        public CompositeFillStyle( IStylesEnumerator<IFillStyle> stylesContainer )
+        public CompositeStyle( IStylesEnumerator<T> stylesContainer )
         {
             _stylesEnumerator = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
         }
 
         public void Enable()
         {
-            static void action( IFillStyle style )
+            static void action( T style )
             {
                 style?.Enable();
             }
@@ -75,7 +73,7 @@
 
         public void Disable()
         {
-            static void action( IFillStyle style )
+            static void action( T style )
             {
                 style?.Disable();
             }
@@ -83,7 +81,7 @@
             _stylesEnumerator.Enumerate( action );
         }
 
-        public bool Equals( IFillStyle other )
+        public override bool Equals( object other )
         {
             if ( other is null )
             {
@@ -95,13 +93,37 @@
                 return true;
             }
 
-            if ( other is CompositeFillStyle compositeFilleStyle )
+            if ( other is CompositeStyle<T> compositeFilleStyle )
             {
                 return IsEnabled == compositeFilleStyle.IsEnabled
                     && Color == compositeFilleStyle.Color;
             }
 
             return false;
+        }
+    }
+
+    //extract base class
+    public class CompositeFillStyle : CompositeStyle<IFillStyle>, IFillStyle
+    {
+        public CompositeFillStyle( IStylesEnumerator<IFillStyle> stylesContainer )
+            : base( stylesContainer )
+        {
+        }
+
+        public override bool Equals( object other )
+        {
+            if ( other is null )
+            {
+                return false;
+            }
+
+            if ( ReferenceEquals( this, other ) )
+            {
+                return true;
+            }
+
+            return base.Equals( other );
         }
     }
 }

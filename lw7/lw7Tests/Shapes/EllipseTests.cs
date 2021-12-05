@@ -3,7 +3,7 @@ using lw7.Shapes;
 using NUnit.Framework;
 using System.Reflection;
 
-namespace lw7Tests
+namespace lw7Tests.Shapes
 {
     public class EllipseTests
     {

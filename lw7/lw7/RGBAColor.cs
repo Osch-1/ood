@@ -22,5 +22,28 @@
             _b = b;
             _a = a;
         }
+
+        public override bool Equals( object obj )
+        {
+            if ( obj is null )
+            {
+                return false;
+            }
+
+            if ( ReferenceEquals( this, obj ) )
+            {
+                return true;
+            }
+
+            if ( obj is RGBAColor other )
+            {
+                return other.R == R
+                    && other.G == G
+                    && other.B == B
+                    && other.A == A;
+            }
+
+            return false;
+        }
     }
 }

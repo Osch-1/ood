@@ -1,87 +1,31 @@
 ﻿namespace lw7.Styles
 {
-    public class CompositeBorderStyle : IBorderStyle
+    public class CompositeBorderStyle : CompositeStyle<IBorderStyle>, IBorderStyle
     {
-        private IStylesEnumerator<IBorderStyle> _stylesEnumerator;
-
-        public bool IsEnabled
-        {
-            get
-            {
-                bool isEnabled = true;
-                void checkIsEnable( IBorderStyle style )
-                {
-                    if ( isEnabled && style is not null )
-                    {
-                        isEnabled = style.IsEnabled;
-                    }
-                };
-
-                _stylesEnumerator?.Enumerate( checkIsEnable );
-
-                return isEnabled;
-            }
-        }
-
-        public RGBAColor Color
-        {
-            get
-            {
-                RGBAColor color = null;
-                void action( IBorderStyle style )
-                {
-                    if ( color == null || style.Color == color )
-                    {
-                        color = style.Color;
-                    }
-                    else
-                    {
-                        color = null;
-                    }
-                }
-
-                _stylesEnumerator?.Enumerate( action );
-                return color;
-            }
-
-            set
-            {
-                void action( IBorderStyle style )
-                {
-                    if ( style is not null )
-                    {
-                        style.Color = value;
-                    }
-                }
-
-                _stylesEnumerator?.Enumerate( action );
-            }
-        }
-
         public double BorderHeight
         {
             get
             {
-                double borderHeight = -1;
+                double height = -1;
+                double firstHeight = -1;
                 void action( IBorderStyle style )
                 {
-                    if ( borderHeight == -1 || style.BorderHeight == borderHeight )
+                    if ( height == -1 )
                     {
-                        borderHeight = style.BorderHeight;
+                        firstHeight = style.BorderHeight;
                     }
-                    else
-                    {
-                        borderHeight = -1;
-                    }
+
+                    height = style.BorderHeight;
                 }
 
                 _stylesEnumerator?.Enumerate( action );
-                return borderHeight;
+
+                return height == firstHeight ? height : -1;
             }
 
             set
             {
-                if ( value <= 0 )
+                if ( value < 0 )
                 {
                     throw new ArgumentOutOfRangeException( nameof( value ) );
                 }
@@ -99,31 +43,11 @@
         }
 
         public CompositeBorderStyle( IStylesEnumerator<IBorderStyle> stylesContainer )
+            : base( stylesContainer )
         {
-            _stylesEnumerator = stylesContainer ?? throw new ArgumentNullException( nameof( stylesContainer ) );
         }
 
-        public void Enable()
-        {
-            static void action( IBorderStyle style )
-            {
-                style?.Enable();
-            }
-
-            _stylesEnumerator.Enumerate( action );
-        }
-
-        public void Disable()
-        {
-            static void action( IBorderStyle style )
-            {
-                style?.Disable();
-            }
-
-            _stylesEnumerator.Enumerate( action );
-        }
-
-        public bool Equals( IBorderStyle other )
+        public override bool Equals( object other )
         {
             if ( other is null )
             {
@@ -135,14 +59,19 @@
                 return true;
             }
 
-            if ( other is CompositeBorderStyle compositeFilleStyle )
+            var baseEquals = base.Equals( other );
+            if ( !baseEquals )
             {
-                return IsEnabled == compositeFilleStyle.IsEnabled
-                    && Color == compositeFilleStyle.Color
-                    && BorderHeight == compositeFilleStyle.BorderHeight;
+                return false;
             }
 
-            return false;
+            if ( other is CompositeBorderStyle compositeFilleStyle )
+            {
+                return baseEquals && BorderHeight == compositeFilleStyle.BorderHeight;
+
+            }
+
+            return baseEquals;
         }
     }
 }
