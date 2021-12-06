@@ -9,7 +9,41 @@
         public Point LeftTop
         {
             get => _leftTop;
-            set => _leftTop = value ?? throw new ArgumentNullException( nameof( value ) );
+            set
+            {
+                _leftTop = value ?? throw new ArgumentNullException( nameof( value ) );
+                SetFrame( new( _leftTop.X, _leftTop.Y, _width, _height ) );
+            }
+        }
+
+        public double Width
+        {
+            get => _width;
+            set
+            {
+                if ( _width <= 0 )
+                {
+                    throw new ArgumentOutOfRangeException( nameof( _width ) );
+                }
+
+                _width = value;
+                SetFrame( new( _leftTop.X, _leftTop.Y, _width, _height ) );
+            }
+        }
+
+        public double Height
+        {
+            get => _height;
+            set
+            {
+                if ( _height <= 0 )
+                {
+                    throw new ArgumentOutOfRangeException( nameof( value ) );
+                }
+
+                _height = value;
+                SetFrame( new( _leftTop.X, _leftTop.Y, _width, _height ) );
+            }
         }
 
         public Point RightTop

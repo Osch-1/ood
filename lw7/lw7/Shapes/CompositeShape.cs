@@ -19,7 +19,7 @@ namespace lw7.Shapes
 
         public int ShapesCount => ( _shapes ??= new() ).Count;
 
-        public Frame Frame => CountFrame();
+        public Frame Frame => _frame;
 
         public IFillStyle FillStyle
         {
@@ -39,18 +39,26 @@ namespace lw7.Shapes
             set => _parent = value;
         }
 
-        public CompositeShape( IShape shape )
+        public CompositeShape( IReadOnlyCollection<IShape> shapes )
         {
-            if ( shape is null )
+            if ( shapes is null || !shapes.Any() )
             {
-                throw new ArgumentNullException( nameof( shape ) );
+                throw new ArgumentNullException( nameof( shapes ) );
             }
 
+            if ( shapes.Count < 2 )
+            {
+                throw new ArgumentException( "Composite shape can't be created from less than 2 shapes" );
+            }
+
+            foreach ( var shape in shapes )
+            {
+                AddShape( shape );
+            }
+
+            _frame = CountFrame();
             _fillStyle = new( this );
             _borderStyle = new( this );
-            _shapes.Add( shape );
-
-            SetFrame( CountFrame() );
         }
 
         public void Draw( ICanvas canvas )
@@ -61,14 +69,14 @@ namespace lw7.Shapes
             }
         }
 
+        //Don't call on shapes manipulation, will cause shapes transformation
         public void SetFrame( Frame frame )
         {
             TransformSettings transformSettings = new();
-            if ( frame.LeftTop != _frame.LeftTop )
+            if ( !frame.LeftTop.Equals( _frame.LeftTop ) )
             {
-                // move group
-                double horizontalOffset = frame.LeftTopX - frame.LeftTopY;
-                double verticalOffset = frame.LeftTopY - frame.LeftTopY;
+                double horizontalOffset = frame.LeftTopX - _frame.LeftTopX;
+                double verticalOffset = frame.LeftTopY - _frame.LeftTopY;
 
                 transformSettings.HorizontalOffset = horizontalOffset;
                 transformSettings.VerticalOffset = verticalOffset;
@@ -76,21 +84,19 @@ namespace lw7.Shapes
 
             if ( frame.Width != _frame.Width )
             {
-                // horizontal scale
                 double scailingRatio = frame.Width / _frame.Width;
                 transformSettings.HorizontalScailing = scailingRatio;
             }
 
             if ( frame.Height != _frame.Height )
             {
-                // vertical scale
                 double scailingRatio = frame.Height / _frame.Height;
                 transformSettings.VerticalScailing = scailingRatio;
             }
 
             foreach ( var shape in _shapes )
             {
-                shape.SetFrame( CountNewFrame( shape.Frame, transformSettings ) );
+                shape.SetFrame( CountNewShapeFrame( shape.Frame, transformSettings ) );
             }
 
             _frame = frame;
@@ -123,6 +129,8 @@ namespace lw7.Shapes
                 //do smth
                 throw;
             }
+
+            _frame = CountFrame();
         }
 
         public IShape GetShapeAt( int index )
@@ -144,6 +152,8 @@ namespace lw7.Shapes
 
             _shapes[ index ].Parent = null;
             _shapes.RemoveAt( index );
+
+            _frame = CountFrame();
         }
 
         void IStylesEnumerator<IFillStyle>.Enumerate( Action<IFillStyle> action )
@@ -166,22 +176,28 @@ namespace lw7.Shapes
         {
             if ( _shapes is null || ( _shapes.Count == 0 ) )
             {
-                return null;
+                throw new InvalidOperationException( "CompositeShape contains 0 shapes or it's storage is null, can't count frame" );
             }
 
-            List<double> xes = new();
-            List<double> ys = new();
+            List<double> minXes = new();
+            List<double> maxXes = new();
+            List<double> minYs = new();
+            List<double> maxYs = new();
 
             foreach ( var shape in _shapes )
             {
-                xes.Add( shape.Frame.LeftTopX );
-                ys.Add( shape.Frame.LeftTopY );
+                var frame = shape.Frame;
+                minXes.Add( frame.LeftTopX );
+                maxXes.Add( frame.LeftTopX + frame.Width );
+                maxYs.Add( frame.LeftTopY );
+                minYs.Add( frame.LeftTopY - frame.Height );
+
             }
 
-            double maxX = xes.Max();
-            double minX = xes.Min();
-            double maxY = ys.Max();
-            double minY = ys.Min();
+            double maxX = maxXes.Max();
+            double minX = minXes.Min();
+            double maxY = maxYs.Max();
+            double minY = minYs.Min();
 
             double frameWidth = maxX - minX;
             double frameHeight = maxY - minY;
@@ -189,13 +205,22 @@ namespace lw7.Shapes
             return new Frame( minX, maxY, frameWidth, frameHeight );
         }
 
-        private static Frame CountNewFrame( Frame currentFrame, TransformSettings transformSettings )
+        private static Frame CountNewShapeFrame( Frame currentFrame, TransformSettings transformSettings )
         {
             double leftTopX = currentFrame.LeftTopX + transformSettings.HorizontalOffset;
             double leftTopY = currentFrame.LeftTopY + transformSettings.VerticalOffset;
 
-            double width = currentFrame.Width * transformSettings.HorizontalScailing;
-            double height = currentFrame.Height * transformSettings.VerticalScailing;
+            double width = currentFrame.Width;
+            if ( transformSettings.HorizontalScailing != 0 )
+            {
+                width = currentFrame.Width * transformSettings.HorizontalScailing;
+            }
+
+            double height = currentFrame.Height;
+            if ( transformSettings.VerticalScailing != 0 )
+            {
+                height = currentFrame.Height * transformSettings.VerticalScailing;
+            }
 
             return new Frame( leftTopX, leftTopY, width, height );
         }

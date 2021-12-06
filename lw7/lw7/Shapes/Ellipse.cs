@@ -9,7 +9,11 @@
         public Point LeftTop
         {
             get => _leftTop;
-            set => _leftTop = value ?? throw new ArgumentNullException( nameof( value ) );
+            set
+            {
+                _leftTop = value ?? throw new ArgumentNullException( nameof( value ) );
+                SetFrame( new( _leftTop.X, _leftTop.Y, _width, _height ) );
+            }
         }
 
         public Ellipse( Point leftTop, double width, double height )
