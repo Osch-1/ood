@@ -35,9 +35,14 @@ namespace lw7.Shapes
             _borderStyle = new BorderStyle();
         }
 
+        /// <summary>
+        /// Simply sets private field _frame to frame argument
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public virtual void SetFrame( Frame frame )
         {
-            _frame = frame;
+            _frame = frame ?? throw new ArgumentNullException( nameof( frame ) );
         }
 
         public virtual void Draw( ICanvas canvas )
@@ -45,14 +50,11 @@ namespace lw7.Shapes
             if ( BorderStyle is not null )
             {
                 canvas.SetBorderHeight( BorderStyle.BorderHeight );
+                canvas.SetPenColor( BorderStyle.Color.R, BorderStyle.Color.G, BorderStyle.Color.B, BorderStyle.Color.A );
 
-                if ( BorderStyle.Color is not null )
-                {
-                    canvas.SetPenColor( BorderStyle.Color.R, BorderStyle.Color.G, BorderStyle.Color.B, BorderStyle.Color.A );
-                }
             }
 
-            if ( FillStyle is not null && FillStyle.Color is not null )
+            if ( FillStyle is not null )
             {
                 canvas.SetFillColor( FillStyle.Color.R, FillStyle.Color.G, FillStyle.Color.B, FillStyle.Color.A );
             }

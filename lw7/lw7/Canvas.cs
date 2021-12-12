@@ -70,7 +70,7 @@ namespace lw7
             StringBuilder sb = new( 50 );
             foreach ( var point in points )
             {
-                sb.AppendJoin( " ", point.ToString() );
+                sb.Append( $"{point} " );
             }
 
             Console.WriteLine( $"FillRectangle({sb})" );

@@ -29,7 +29,7 @@
                 throw new ArgumentOutOfRangeException( nameof( height ) );
             }
 
-            _leftTop = leftTop;
+            _leftTop = leftTop ?? throw new ArgumentNullException( nameof( leftTop ) );
             _width = width;
             _height = height;
             SetFrame( new Frame( leftTop.X, leftTop.Y, width, height ) );
@@ -46,6 +46,7 @@
 
         public override void Draw( ICanvas canvas )
         {
+            base.Draw( canvas );
             if ( BorderStyle.IsEnabled )
             {
                 canvas.DrawEllipse( _leftTop, _width, _height );

@@ -1,19 +1,6 @@
 ﻿namespace lw7
 {
-    public interface ISlide : IDrawable
-    {
-        public IReadOnlyList<IShape> Shapes { get; }
-        public double Width { get; }
-        public double Height { get; }
-        public void AddShape( IShape shape );
-        public void RemoveShape( int index );
-        public void SetWidth( double width );
-        public void SetHeight( double height );
-        public RGBAColor GetBackgroundColor();
-        public void SetBackgroundColor( RGBAColor color );
-    }
-
-    public class Slide : ISlide
+    public class Slide : IDrawable
     {
         private List<IShape> _shapes = new();
         private double _width;
@@ -25,6 +12,12 @@
         public double Width => _width;
 
         public double Height => _height;
+
+        public Slide( double width, double height )
+        {
+            _width = width;
+            _height = height;
+        }
 
         public void AddShape( IShape shape )
         {
@@ -61,11 +54,6 @@
 
         public void SetBackgroundColor( RGBAColor color )
         {
-            if ( color is null )
-            {
-                throw new ArgumentNullException( nameof( color ) );
-            }
-
             _backgroundColor = color;
         }
 

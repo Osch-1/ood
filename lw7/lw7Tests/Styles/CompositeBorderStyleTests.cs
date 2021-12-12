@@ -69,20 +69,6 @@ namespace lw7Tests.Styles
         }
 
         [Test]
-        public void CompositeBorderStyle_Color_CompositeStyleWithEnumeratorWhereColorsDiffers_ReturnsNull()
-        {
-            //Arrange
-            SimpleBorderStylesEnumerator stylesEnumerator = SimpleBorderStylesEnumerator.WithDifferentColors();
-            CompositeBorderStyle style = new( stylesEnumerator );
-
-            //Act
-            RGBAColor color = style.Color;
-
-            //Assert
-            Assert.IsNull( color );
-        }
-
-        [Test]
         public void CompositeBorderStyle_ColorSetter_RGBA_SetsEachStyleColorToProvided()
         {
             //Arrange

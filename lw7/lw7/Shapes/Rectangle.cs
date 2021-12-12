@@ -82,8 +82,9 @@
 
         public override void Draw( ICanvas canvas )
         {
+            base.Draw( canvas );
             if ( BorderStyle.IsEnabled )
-            {
+            {                
                 canvas.DrawLine( LeftTop, RightTop );
                 canvas.DrawLine( RightTop, RightBottom );
                 canvas.DrawLine( RightBottom, LeftBottom );

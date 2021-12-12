@@ -32,10 +32,7 @@
             get => _color;
             set
             {
-                if ( value is not null )
-                {
-                    _color = value;
-                }
+                _color = value;
             }
         }
 

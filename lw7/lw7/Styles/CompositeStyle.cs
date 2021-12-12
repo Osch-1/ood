@@ -28,21 +28,17 @@
         {
             get
             {
-                RGBAColor color = null;
-                RGBAColor firstColor = null;
+                RGBAColor curr = new();
+                RGBAColor prev = new();
                 void action( T style )
                 {
-                    if ( color == null )
-                    {
-                        firstColor = style.Color;
-                    }
-
-                    color = style.Color;
+                    prev = curr;
+                    curr = style.Color;
                 }
 
                 _stylesEnumerator?.Enumerate( action );
 
-                return color.Equals( firstColor ) ? color : null;
+                return curr.Equals( prev ) ? curr : new();
             }
 
             set
@@ -96,7 +92,7 @@
             if ( other is CompositeStyle<T> compositeFilleStyle )
             {
                 return IsEnabled == compositeFilleStyle.IsEnabled
-                    && Color == compositeFilleStyle.Color;
+                    && Color.Equals( compositeFilleStyle.Color );
             }
 
             return false;

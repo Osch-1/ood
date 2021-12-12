@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents RGBA color
     /// </summary>
-    public class RGBAColor
+    public struct RGBAColor
     {
         private int _r;
         private int _g;
@@ -14,6 +14,14 @@
         public int G => _g;
         public int B => _b;
         public double A => _a;
+
+        public RGBAColor()
+        {
+            _r = 0;
+            _g = 0;
+            _b = 0;
+            _a = 1;
+        }
 
         public RGBAColor( int r, int g, int b, double a )
         {
