@@ -68,7 +68,6 @@
             if ( other is CompositeBorderStyle compositeFilleStyle )
             {
                 return baseEquals && BorderHeight == compositeFilleStyle.BorderHeight;
-
             }
 
             return baseEquals;

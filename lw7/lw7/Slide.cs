@@ -27,6 +27,7 @@
             }
         }
 
+        //1 объект в составной фигуре
         public void RemoveShape( int index )
         {
             if ( index > _shapes.Count - 1 )

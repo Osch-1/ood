@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace lw7Tests.Shapes
 {
+    //add test for self insert
     public class CompositeShapeTests
     {
         [Test]

@@ -51,7 +51,6 @@ namespace lw7.Shapes
             {
                 canvas.SetBorderHeight( BorderStyle.BorderHeight );
                 canvas.SetPenColor( BorderStyle.Color.R, BorderStyle.Color.G, BorderStyle.Color.B, BorderStyle.Color.A );
-
             }
 
             if ( FillStyle is not null )
