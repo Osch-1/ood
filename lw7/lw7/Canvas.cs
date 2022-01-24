@@ -24,6 +24,10 @@ namespace lw7
         /// <param name="width"></param>
         /// <param name="height"></param>
         public void FillEllipse( Point leftTop, double width, double height );
+        /// <summary>
+        /// Fills rectangle by provided points
+        /// </summary>
+        /// <param name="points"></param>
         public void FillRectangle( IEnumerable<Point> points );
         /// <summary>
         /// Sets fill color
