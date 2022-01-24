@@ -6,14 +6,11 @@
         xmlns:local="clr-namespace:Paint__.Views"
         xmlns:viewModels="clr-namespace:Paint__.ViewModels"
         mc:Ignorable="d"        
-        Title="Paint++" Width="900" Height="900">
-
-    <Window.DataContext>
-        <viewModels:MainWindowViewModel/>
-    </Window.DataContext>
+        Title="Paint++" Width="900" Height="900"
+        ResizeMode="NoResize">
 
     <Grid>
         <local:ToolbarView Height="60" Margin="0,0,0,724"></local:ToolbarView>
-        <local:CanvasView DataContext="{Binding CanvasViewModel}" Margin="80,52,80,52"/>
+        <local:CanvasView DataContext="{Binding CanvasViewModel}"/>
     </Grid>
 </Window>

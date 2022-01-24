@@ -1,6 +1,6 @@
 ﻿namespace Common.Types;
 
-public class Frame
+public struct Frame
 {
     private Point _leftTop;
     private Size _size;

@@ -26,6 +26,6 @@ public class ShapeDataTemplateSelector : DataTemplateSelector
             }
         }
 
-        throw new Exception();
+        throw new NotImplementedException();
     }
 }

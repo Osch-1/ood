@@ -11,41 +11,43 @@
 
     <Grid>
         <Border Width="640" Height="480" BorderBrush="#000" BorderThickness="2">
-            <ItemsControl Background="White" 
-                          x:Name="Shapes" 
+            <ItemsControl Background="#FFF" 
+                          x:Name="Shapes"
                           ItemsSource="{Binding ShapeViewModels}"
                           ItemTemplateSelector="{StaticResource ShapeDataTemplateSelector}"
                           handlers:SelectionHandler.SelectContext="{Binding}"
                           handlers:SelectionHandler.IsDeselectField="True">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas>
+                        <Canvas ClipToBounds="True">
                         </Canvas>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="Canvas.Left"
-                                Value="{Binding LeftTopX, Mode=TwoWay}"/>
-                        <Setter Property="Canvas.Top"
                                 Value="{Binding LeftTopY, Mode=TwoWay}"/>
+                        <Setter Property="Canvas.Top"
+                                Value="{Binding LeftTopX, Mode=TwoWay}"/>
+                        <Setter Property="handlers:DragAndDropHandler.IsDraggable" Value="True"/>
                         <Setter Property="handlers:SelectionHandler.IsSelectable" Value="True"/>
-                        <Setter Property="handlers:SelectionHandler.SelectContext" Value="{Binding RelativeSource={RelativeSource
+                        <Setter Property="handlers:DragAndDropHandler.MoveContainer" Value="{Binding ElementName=Shapes}"/>
+                        <Setter Property="handlers:SelectionHandler.SelectContext" Value="{Binding RelativeSource=
+                                                                                                {RelativeSource
                                                                                                    Mode=FindAncestor,
                                                                                                    AncestorType={x:Type ItemsControl}}, 
                                                                                                    Path=DataContext}"/>
-
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Border>
 
-        <Canvas Width="{Binding Width}" Height="{Binding Height}">
-            <local:SelectionFrameView BindPanel="{Binding ElementName=Shapes}"
-                                      Canvas.Top="{Binding SelectedShapeViewModel.Shape.LeftTopX, Mode=TwoWay}" 
+        <Canvas ClipToBounds="True" Width="{Binding Width}" Height="{Binding Height}">
+            <local:SelectionFrameView Canvas.Top="{Binding SelectedShapeViewModel.Shape.LeftTopX, Mode=TwoWay}" 
                                       Canvas.Left="{Binding SelectedShapeViewModel.Shape.LeftTopY, Mode=TwoWay}" 
                                       Width="{Binding SelectedShapeViewModel.Shape.Width, Mode=TwoWay}"
-                                      Height="{Binding SelectedShapeViewModel.Shape.Height, Mode=TwoWay}"/>
+                                      Height="{Binding SelectedShapeViewModel.Shape.Height, Mode=TwoWay}"
+                                      BindPanel="{Binding ElementName=Shapes}"/>
         </Canvas>
     </Grid>
 </UserControl>

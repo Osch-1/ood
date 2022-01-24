@@ -11,11 +11,11 @@ public class ShapeViewModel : INotifyPropertyChanged
     {
         get
         {
-            return _shape.Frame.LeftTop.X;
+            return _shape.LeftTopX;
         }
         set
         {
-            _shape.Frame.LeftTop.SetAbscissa( value );
+            _shape.LeftTopX = value;
         }
     }
 
@@ -23,11 +23,11 @@ public class ShapeViewModel : INotifyPropertyChanged
     {
         get
         {
-            return _shape.Frame.LeftTop.Y;
+            return _shape.LeftTopY;
         }
         set
         {
-            _shape.Frame.LeftTop.SetOrdinate( value );
+            _shape.LeftTopY = value;
         }
     }
 
@@ -35,11 +35,11 @@ public class ShapeViewModel : INotifyPropertyChanged
     {
         get
         {
-            return _shape.Frame.Width;
+            return _shape.Width;
         }
         set
         {
-            _shape.SetWidth( value );
+            _shape.Width = value;
         }
     }
 
@@ -47,11 +47,11 @@ public class ShapeViewModel : INotifyPropertyChanged
     {
         get
         {
-            return _shape.Frame.Height;
+            return _shape.Height;
         }
         set
         {
-            _shape.SetHeight( value );
+            _shape.Height = value;
         }
     }
 

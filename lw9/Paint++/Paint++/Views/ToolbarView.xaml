@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint__.Views"
              mc:Ignorable="d" 
-             d:DesignWidth="800" HorizontalAlignment="Center" VerticalAlignment="Center">
+             d:DesignWidth="640" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-    <Menu Width="800" Height="60" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" Background="White">
+    <Menu Width="640" Height="60" BorderBrush="Black" BorderThickness="2" VerticalAlignment="Center" Background="White">
         <Button Background="White"
                 Foreground="White"
                 FontWeight="Bold"
@@ -55,27 +55,6 @@
                 FontSize="11"
                 Command="{Binding CanvasViewModel.DeleteSelectedShape}" BorderBrush="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Background="White">
             X
-        </Button>
-
-        <Button Foreground="Black"
-                FontWeight="Bold"
-                Margin="1,10,1,10"
-                Padding="2"
-                Height="30"
-                FontSize="11"
-                Command="{Binding Undo}" BorderBrush="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Background="White">
-            Undo
-        </Button>
-
-        <Button
-                Foreground="Black"
-                FontWeight="Bold"
-                Margin="1,10,1,10"
-                Padding="2"
-                Height="30"
-                FontSize="11"
-                Command="{Binding Redo}" BorderBrush="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Background="White">
-            Redo
         </Button>
     </Menu>
 

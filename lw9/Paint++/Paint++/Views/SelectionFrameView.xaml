@@ -4,19 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint__.Views"
+             xmlns:handlers="clr-namespace:Paint__.Views.Handlers"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="SelectionFrame"
              d:Height="100" d:Width="100">
-    <Border BorderThickness="4">
-        <Border.BorderBrush>
-            <VisualBrush>
-                <VisualBrush.Visual>
-                    <Rectangle StrokeDashArray="4 2" Stroke="Gray" StrokeThickness="1"
-                  Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                  Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Border.BorderBrush>
+    <Border BorderBrush="Aqua" BorderThickness="2" Margin="-5 -5 -9 -9">
         <Border.Resources>
             <Style TargetType="Border">
                 <Style.Triggers>
@@ -26,28 +18,35 @@
                 </Style.Triggers>
             </Style>
         </Border.Resources>
-        <Canvas>
-            <Rectangle x:Name="topLeft"
-                       Canvas.Top="-6"
-                       Canvas.Left="-6"
+
+        <Canvas handlers:ResizeHandler.TopLeftResizeMarker="{Binding ElementName=TopLeftResizeMarker}"
+                handlers:ResizeHandler.TopRightResizeMarker="{Binding ElementName=TopRightResizeMarker}"
+                handlers:ResizeHandler.BottomRightResizeMarker="{Binding ElementName=BottomRightResizeMarker}"
+                handlers:ResizeHandler.BottomLeftResizeMarker="{Binding ElementName=BottomLeftResizeMarker}"                
+                handlers:ResizeHandler.IsResizeFrame="True"
+                handlers:ResizeHandler.FrameContainer="{Binding ElementName=SelectionFrame}"
+                handlers:ResizeHandler.MoveContainer="{Binding BindPanel, ElementName=SelectionFrame}">
+            <Rectangle x:Name="TopLeftResizeMarker"
+                       Canvas.Top="-8"
+                       Canvas.Left="-8"
                        Width="7"
                        Height="7"
                        Fill="#000"/>
-            <Rectangle x:Name="topRight"
-                       Canvas.Top="-6"
-                       Canvas.Right="-6"
+            <Rectangle x:Name="TopRightResizeMarker"
+                       Canvas.Top="-8"
+                       Canvas.Right="-8"
                        Width="7"
                        Height="7"
                        Fill="#000"/>
-            <Rectangle x:Name="bottomRight"
-                       Canvas.Bottom="-6"
-                       Canvas.Right="-6"
+            <Rectangle x:Name="BottomRightResizeMarker"
+                       Canvas.Bottom="-10"
+                       Canvas.Right="-8"
                        Width="7"
                        Height="7"
                        Fill="#000"/>
-            <Rectangle x:Name="bottomLeft"
-                       Canvas.Bottom="-6"
-                       Canvas.Left="-6"
+            <Rectangle x:Name="BottomLeftResizeMarker"
+                       Canvas.Bottom="-10"
+                       Canvas.Left="-8"
                        Width="7"
                        Height="7"
                        Fill="#000"/>

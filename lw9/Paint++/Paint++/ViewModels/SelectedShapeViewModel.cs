@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Input;
 using Domain;
 
 namespace Paint__.ViewModels;
@@ -28,6 +27,7 @@ public class SelectedShapeViewModel : INotifyPropertyChanged
     {
         _document = document;
         _document.Canvas.ShapesCollection.CollectionChanged += OnShapeCollectionChanged;
+
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -37,17 +37,14 @@ public class SelectedShapeViewModel : INotifyPropertyChanged
         PropertyChanged.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
     }
 
-    private void OnShapeCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
+    private void OnShapeCollectionChanged( object sender, NotifyCollectionChangedEventArgs eventArgs )
     {
-        if ( sender is ObservableCollection<Shape> origin )
+        switch ( eventArgs.Action )
         {
-            switch ( e.Action )
-            {
-                case NotifyCollectionChangedAction.Remove:
-                    Shape = null;
-                    break;
+            case NotifyCollectionChangedAction.Remove:
+                Shape = null;
+                break;
 
-            }
         }
     }
 }

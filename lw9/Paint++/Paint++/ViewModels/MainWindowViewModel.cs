@@ -9,7 +9,19 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     private CanvasViewModel _canvasViewModel;
 
     public Document Document => _document;
-    public CanvasViewModel CanvasViewModel => _canvasViewModel;
+    public CanvasViewModel CanvasViewModel
+    {
+        get
+        {
+            return _canvasViewModel;
+        }
+
+        set
+        {
+            _canvasViewModel = value;
+            OnPropertyChanged( "Canvas" );
+        }
+    }
 
     public MainWindowViewModel()
     {
@@ -18,4 +30,9 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged( string propertyName )
+    {
+        PropertyChanged.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
+    }
 }

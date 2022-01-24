@@ -1,6 +1,4 @@
-﻿using Domain.EventModel;
-
-namespace Domain;
+﻿namespace Domain;
 
 public class Document
 {
