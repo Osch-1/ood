@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint__.Views"
+             xmlns:handlers="clr-namespace:Paint__.Handlers"
              xmlns:viewModels="clr-namespace:Paint__.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
@@ -13,7 +14,9 @@
             <ItemsControl Background="White" 
                           x:Name="Shapes" 
                           ItemsSource="{Binding ShapeViewModels}"
-                          ItemTemplateSelector="{StaticResource ShapeDataTemplateSelector}">
+                          ItemTemplateSelector="{StaticResource ShapeDataTemplateSelector}"
+                          handlers:SelectionHandler.SelectContext="{Binding}"
+                          handlers:SelectionHandler.IsDeselectField="True">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas>
@@ -23,16 +26,26 @@
                 <ItemsControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="Canvas.Left"
-                                Value="{Binding Width}"/>
+                                Value="{Binding LeftTopX, Mode=TwoWay}"/>
                         <Setter Property="Canvas.Top"
-                                Value="{Binding Height}" />
+                                Value="{Binding LeftTopY, Mode=TwoWay}"/>
+                        <Setter Property="handlers:SelectionHandler.IsSelectable" Value="True"/>
+                        <Setter Property="handlers:SelectionHandler.SelectContext" Value="{Binding RelativeSource={RelativeSource
+                                                                                                   Mode=FindAncestor,
+                                                                                                   AncestorType={x:Type ItemsControl}}, 
+                                                                                                   Path=DataContext}"/>
+
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Border>
 
         <Canvas Width="{Binding Width}" Height="{Binding Height}">
-
+            <local:SelectionFrameView BindPanel="{Binding ElementName=Shapes}"
+                                      Canvas.Top="{Binding SelectedShapeViewModel.Shape.LeftTopX, Mode=TwoWay}" 
+                                      Canvas.Left="{Binding SelectedShapeViewModel.Shape.LeftTopY, Mode=TwoWay}" 
+                                      Width="{Binding SelectedShapeViewModel.Shape.Width, Mode=TwoWay}"
+                                      Height="{Binding SelectedShapeViewModel.Shape.Height, Mode=TwoWay}"/>
         </Canvas>
     </Grid>
 </UserControl>

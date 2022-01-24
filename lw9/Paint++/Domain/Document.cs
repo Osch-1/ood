@@ -12,6 +12,4 @@ public class Document
     {
         _canvas = canvas ?? throw new ArgumentNullException( nameof( canvas ) );
     }
-
-    
 }

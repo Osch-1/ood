@@ -2,8 +2,8 @@
 
 public struct Size
 {
-    private const int _defaultWidth = 100;
-    private const int _defaultHeight = 100;
+    private const int _defaultWidth = 150;
+    private const int _defaultHeight = 150;
 
     private double _width;
     private double _height;

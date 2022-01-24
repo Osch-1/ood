@@ -14,7 +14,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public MainWindowViewModel()
     {
         _document = new Document( new Canvas() );
-        _canvasViewModel = new CanvasViewModel( _document );
+        _canvasViewModel = new CanvasViewModel( Document, new SelectedShapeViewModel( Document ) );
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

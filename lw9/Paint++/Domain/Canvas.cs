@@ -20,16 +20,6 @@ public class Canvas
         _size = new Size( 640, 480 );
     }
 
-    public Shape GetShape( int index )
-    {
-        if ( _shapes.Count >= index )
-        {
-            return _shapes[ index ];
-        }
-
-        throw new ArgumentOutOfRangeException( nameof( index ) );
-    }
-
     public void AddShape( Shape shape )
     {
         _shapes.Add( shape );

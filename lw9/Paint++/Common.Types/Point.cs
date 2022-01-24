@@ -2,8 +2,8 @@
 
 public struct Point
 {
-    public const double DefaultAbsciss = 0;
-    public const double DefaultOrdinate = 0;
+    public const double DefaultAbsciss = 100;
+    public const double DefaultOrdinate = 100;
 
     private double _x;
     private double _y;

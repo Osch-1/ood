@@ -3,13 +3,59 @@ using Domain;
 
 namespace Paint__.ViewModels;
 
-internal class ShapeViewModel : INotifyPropertyChanged
+public class ShapeViewModel : INotifyPropertyChanged
 {
     private Shape _shape;
 
+    public double LeftTopX
+    {
+        get
+        {
+            return _shape.Frame.LeftTop.X;
+        }
+        set
+        {
+            _shape.Frame.LeftTop.SetAbscissa( value );
+        }
+    }
+
+    public double LeftTopY
+    {
+        get
+        {
+            return _shape.Frame.LeftTop.Y;
+        }
+        set
+        {
+            _shape.Frame.LeftTop.SetOrdinate( value );
+        }
+    }
+
+    public double Width
+    {
+        get
+        {
+            return _shape.Frame.Width;
+        }
+        set
+        {
+            _shape.SetWidth( value );
+        }
+    }
+
+    public double Height
+    {
+        get
+        {
+            return _shape.Frame.Height;
+        }
+        set
+        {
+            _shape.SetHeight( value );
+        }
+    }
+
     public ShapeType ShapeType => _shape.ShapeType;
-    public double Width => _shape.Frame.Width;
-    public double Height => _shape.Frame.Height;
 
     public ShapeViewModel( Shape shape )
     {

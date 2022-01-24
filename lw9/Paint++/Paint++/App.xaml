@@ -6,7 +6,8 @@
     <Application.Resources>
 
         <DataTemplate x:Key="EllipseTemplate">
-            <Ellipse Width="{Binding Width}" 
+            <Ellipse 
+                     Width="{Binding Width}" 
                      Height="{Binding Height}"                   
                      Stroke="#000" 
                      StrokeThickness="1"                  
@@ -26,7 +27,7 @@
                   Height="{Binding Height}"                   
                   Stroke="#000" 
                   StrokeThickness="1"
-                  Data="M 0 100 L 100 100 50 0 Z"
+                  Data="M 0 0 L 0 50 50 0 Z"
                   Fill="#FFF" 
                   Stretch="Fill"/>
         </DataTemplate>
