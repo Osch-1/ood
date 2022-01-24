@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace Paint__.Handlers;
@@ -13,16 +12,12 @@ public class SelectionHandler
     public static readonly DependencyProperty IsSelectable = DependencyProperty.RegisterAttached(
         "IsSelectable", typeof( bool ), typeof( SelectionHandler ), new PropertyMetadata( false, IsSelectSourceChanged ) );
 
-
-    public static readonly DependencyProperty SelectionContext = DependencyProperty.RegisterAttached(
-        "SelectContext", typeof( ISelectableItemContainerContext ), typeof( SelectionHandler ), new PropertyMetadata() );
-
     public static bool GetIsSelectable( DependencyObject element )
     {
         return ( bool )element.GetValue( IsSelectable );
     }
 
-    public static void SetIsSelectable( DependencyObject element, Boolean value )
+    public static void SetIsSelectable( DependencyObject element, bool value )
     {
         element.SetValue( IsSelectable, value );
     }
@@ -40,6 +35,22 @@ public class SelectionHandler
             selectSource.PreviewMouseLeftButtonDown -= _instance.Select;
         }
     }
+
+    private void Select( object sender, MouseButtonEventArgs e )
+    {
+        if ( _selectableItemContainerContext is null )
+        {
+            _selectableItemContainerContext = GetSelectContext( ( DependencyObject )sender );
+        }
+
+        if ( _selectableItemContainerContext is not null )
+        {
+            _selectableItemContainerContext.SelectObject( ( sender as FrameworkElement ).DataContext );
+        }
+    }
+
+    public static readonly DependencyProperty SelectionContext = DependencyProperty.RegisterAttached(
+        "SelectContext", typeof( ISelectableItemContainerContext ), typeof( SelectionHandler ), new PropertyMetadata() );
 
     public static ISelectableItemContainerContext GetSelectContext( DependencyObject element )
     {
@@ -72,23 +83,16 @@ public class SelectionHandler
         }
     }
 
-    private void Select( object sender, MouseButtonEventArgs e )
+    private void Deselect( object sender, MouseButtonEventArgs e )
     {
         if ( _selectableItemContainerContext is null )
         {
             _selectableItemContainerContext = GetSelectContext( ( DependencyObject )sender );
         }
 
-        _selectableItemContainerContext.SelectObject( ( sender as FrameworkElement ).DataContext );
-    }
-
-    private void Deselect( object sender, MouseButtonEventArgs e )
-    {
-        if ( _selectableItemContainerContext == null )
+        if ( _selectableItemContainerContext is not null )
         {
-            _selectableItemContainerContext = GetSelectContext( ( DependencyObject )sender );
+            _selectableItemContainerContext.RemoveSelection();
         }
-
-        _selectableItemContainerContext.RemoveSelection();
     }
 }

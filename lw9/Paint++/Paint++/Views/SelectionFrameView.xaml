@@ -20,11 +20,37 @@
         <Border.Resources>
             <Style TargetType="Border">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=SelectedShapeViewModel.Shape}">
+                    <DataTrigger Binding="{Binding Path=SelectedShapeViewModel.Shape}" Value="{x:Null}">
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
         </Border.Resources>
+        <Canvas>
+            <Rectangle x:Name="topLeft"
+                       Canvas.Top="-6"
+                       Canvas.Left="-6"
+                       Width="7"
+                       Height="7"
+                       Fill="#000"/>
+            <Rectangle x:Name="topRight"
+                       Canvas.Top="-6"
+                       Canvas.Right="-6"
+                       Width="7"
+                       Height="7"
+                       Fill="#000"/>
+            <Rectangle x:Name="bottomRight"
+                       Canvas.Bottom="-6"
+                       Canvas.Right="-6"
+                       Width="7"
+                       Height="7"
+                       Fill="#000"/>
+            <Rectangle x:Name="bottomLeft"
+                       Canvas.Bottom="-6"
+                       Canvas.Left="-6"
+                       Width="7"
+                       Height="7"
+                       Fill="#000"/>
+        </Canvas>
     </Border>
 </UserControl>
